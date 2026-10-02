@@ -281,10 +281,10 @@ const CONFIG = {
   LOGO: 'logo.png',                                      // upload logo.png next to index.html (optional)
   CONTACT: { telegram: 'https://t.me/ICA_Studies', whatsapp: '+989044362638', email: 'ica.expt@gmail.com', phone: '' }, // e.g. 'https://t.me/yourname', '+98912...', 'info@...'
   MAX_MB: 15,                                            // max size of one document (after PDF)
-  DEFAULT_DOCS: ['passport', 'photo', 'transcript']      // used when a program has no required_docs
+  REQUIRED_DOCS: ['photo', 'passport', 'degree']         // the same 3 required documents for every program
 };
-const DOC_TYPES = ['passport','photo','highschool','bachelor','master','transcript','cv','language','other'];
-const DOC_ICON = {passport:'🛂',photo:'🖼️',highschool:'🎒',bachelor:'🎓',master:'🎓',transcript:'📑',cv:'📄',language:'🗣️',other:'📎'};
+const DOC_TYPES = ['photo','passport','degree','highschool','bachelor','master','transcript','cv','language','other'];
+const DOC_ICON = {degree:'🎓',passport:'🛂',photo:'🖼️',highschool:'🎒',bachelor:'🎓',master:'🎓',transcript:'📑',cv:'📄',language:'🗣️',other:'📎'};
 const LEVELS = ['bachelor','master','phd','medical','other'];
 const STATUS_ICON = {under_review:'🟡',accepted:'🟢',rejected:'🔴',more_docs:'🟠'};
 const COUNTRIES = ['Iraq','Syria','Lebanon','Afghanistan','Pakistan','India','Yemen','Bahrain','Kuwait','Saudi Arabia','Oman','Qatar','United Arab Emirates','Azerbaijan','Tajikistan','Turkey','Iran','Jordan','Egypt','Nigeria','Other'];
@@ -302,9 +302,9 @@ en:{ _name:'English', _dir:'ltr',
  view_details:'View Details', apply_uni:'Apply to this University', back_unis:'Back to Universities', programs_count:'{n} programs', no_unis:'No universities found.', required_docs:'Required documents', duration:'Duration', teaching_lang:'Language', apply_short:'Apply',
  lvl_bachelor:"Bachelor's", lvl_master:"Master's", lvl_phd:'PhD', lvl_medical:'Medical', lvl_other:'Other',
  step_personal:'Personal Information', step_education:'Education', step_program:'University & Program', step_docs:'Documents', step_review:'Review', step_of:'Step {n} of {t}',
- f_first:'First name', f_name:'Full name', f_last:'Last name', f_dob:'Date of birth', f_gender:'Gender', male:'Male', female:'Female', f_nationality:'Nationality', f_residence:'Country of residence', f_phone:'Phone number (WhatsApp)', f_tg:'Telegram username', f_email:'Email address', optional:'(optional)', select:'Select...',
- f_edu_level:'Highest education level', edu_highschool:'High school', edu_bachelor:"Bachelor's", edu_master:"Master's", edu_phd:'PhD', edu_other:'Other',
- f_prev_school:'Previous university / school', f_edu_field:'Field of study', f_grad_year:'Graduation year', f_gpa:'GPA / Grade', f_prev_degree:'Previous degree title', ph_prev_degree:'e.g. BSc Civil Engineering',
+ f_first:'First name', f_name:'Full name', f_fullname:'Full name (first, father’s and grandfather’s name)', f_passport:'Passport number', err_passport:'Please enter a valid passport number.', preparing:'Preparing your documents...', f_last:'Last name', f_dob:'Date of birth', f_gender:'Gender', male:'Male', female:'Female', f_nationality:'Nationality', f_residence:'Country of residence', f_phone:'Phone number (WhatsApp)', f_tg:'Telegram username', f_email:'Email address', optional:'(optional)', select:'Select...',
+ f_edu_level:'Last degree completed', edu_highschool:'High school', edu_bachelor:"Bachelor's (BSc)", edu_master:"Master's (MSc)", edu_phd:'PhD', edu_other:'Other',
+ f_prev_school:'Previous university / school', f_edu_field:'Field of study (last degree)', f_grad_year:'Graduation year', f_gpa:'GPA / Grade', f_prev_degree:'Previous degree title', ph_prev_degree:'e.g. BSc Civil Engineering',
  f_country:'Country', f_university:'University', f_degree:'Degree level', f_program:'Program', f_intake:'Intake',
  next:'Continue', prev:'Back', err_required:'Please fill in this field.', err_phone:'Please enter a valid phone number.', err_email:'Please enter a valid email address.', err_year:'Please enter a valid year.', fix_fields:'Please complete the highlighted fields.',
  docs_hint:'Upload photos or PDFs. Photos are turned into a PDF automatically, and a document with several pages becomes one PDF.',
@@ -320,7 +320,7 @@ en:{ _name:'English', _dir:'ltr',
  contact_text:'Our team is happy to answer your questions.', c_telegram:'Telegram', c_whatsapp:'WhatsApp', c_email:'Email', c_phone:'Phone',
  e_generic:'Something went wrong. Please try again.', e_process:'Your document could not be processed. Please upload it again.', e_size:'File size is too large (max {n} MB).', e_format:'Only PDF, JPG, JPEG and PNG files are supported.', e_submit:'Your application could not be submitted. Your information has not been lost.', e_auth:'Please open this app from our Telegram bot.', e_network:'No connection. Please check your internet and try again.', e_load:"We couldn't load the latest information.", retry:'Try again',
  choose_lang:'Choose language', close:'Close', cancel:'Cancel', yes_remove:'Remove', applying_to:'Applying to', which_doc:'Which document is this?', demo:'Demo mode — the backend is not connected yet.',
- doc_passport:'Passport', doc_photo:'Personal Photo', doc_highschool:'High School Diploma', doc_bachelor:"Bachelor's Diploma", doc_master:"Master's Diploma", doc_transcript:'Transcript', doc_cv:'CV', doc_language:'Language Certificate', doc_other:'Other Document'
+ doc_degree:'Last Degree Certificate', doc_passport:'Passport', doc_photo:'Personal Photo', doc_highschool:'High School Diploma', doc_bachelor:"Bachelor's Diploma", doc_master:"Master's Diploma", doc_transcript:'Transcript', doc_cv:'CV', doc_language:'Language Certificate', doc_other:'Other Document'
 },
 ar:{ _name:'العربية', _dir:'rtl',
  brand:'ICA للقبول', tagline:'قبول الطلاب الدوليين', hero_t1:'ادرس في إيران،', hero_t2:'ابدأ من هنا.',
@@ -333,9 +333,9 @@ ar:{ _name:'العربية', _dir:'rtl',
  view_details:'عرض التفاصيل', apply_uni:'قدّم إلى هذه الجامعة', back_unis:'العودة إلى الجامعات', programs_count:'{n} برامج', no_unis:'لا توجد جامعات.', required_docs:'المستندات المطلوبة', duration:'المدة', teaching_lang:'لغة الدراسة', apply_short:'قدّم',
  lvl_bachelor:'بكالوريوس', lvl_master:'ماجستير', lvl_phd:'دكتوراه', lvl_medical:'الطب', lvl_other:'أخرى',
  step_personal:'المعلومات الشخصية', step_education:'التعليم', step_program:'الجامعة والبرنامج', step_docs:'المستندات', step_review:'المراجعة', step_of:'الخطوة {n} من {t}',
- f_first:'الاسم الأول', f_name:'الاسم الكامل', f_last:'اسم العائلة', f_dob:'تاريخ الميلاد', f_gender:'الجنس', male:'ذكر', female:'أنثى', f_nationality:'الجنسية', f_residence:'بلد الإقامة', f_phone:'رقم الهاتف (واتساب)', f_tg:'اسم المستخدم في تيليجرام', f_email:'البريد الإلكتروني', optional:'(اختياري)', select:'اختر...',
- f_edu_level:'أعلى مؤهل دراسي', edu_highschool:'الثانوية', edu_bachelor:'بكالوريوس', edu_master:'ماجستير', edu_phd:'دكتوراه', edu_other:'أخرى',
- f_prev_school:'الجامعة / المدرسة السابقة', f_edu_field:'التخصص', f_grad_year:'سنة التخرج', f_gpa:'المعدل / الدرجة', f_prev_degree:'اسم الشهادة السابقة', ph_prev_degree:'مثال: بكالوريوس هندسة مدنية',
+ f_first:'الاسم الأول', f_name:'الاسم الكامل', f_fullname:'الاسم الثلاثي', f_passport:'رقم جواز السفر', err_passport:'يرجى إدخال رقم جواز سفر صحيح.', preparing:'جارٍ تجهيز المستندات...', f_last:'اسم العائلة', f_dob:'تاريخ الميلاد', f_gender:'الجنس', male:'ذكر', female:'أنثى', f_nationality:'الجنسية', f_residence:'بلد الإقامة', f_phone:'رقم الهاتف (واتساب)', f_tg:'اسم المستخدم في تيليجرام', f_email:'البريد الإلكتروني', optional:'(اختياري)', select:'اختر...',
+ f_edu_level:'آخر شهادة حصلت عليها', edu_highschool:'الثانوية', edu_bachelor:'بكالوريوس', edu_master:'ماجستير', edu_phd:'دكتوراه', edu_other:'أخرى',
+ f_prev_school:'الجامعة / المدرسة السابقة', f_edu_field:'التخصص (آخر شهادة)', f_grad_year:'سنة التخرج', f_gpa:'المعدل / الدرجة', f_prev_degree:'اسم الشهادة السابقة', ph_prev_degree:'مثال: بكالوريوس هندسة مدنية',
  f_country:'الدولة', f_university:'الجامعة', f_degree:'المرحلة الدراسية', f_program:'البرنامج', f_intake:'موعد القبول',
  next:'متابعة', prev:'رجوع', err_required:'يرجى ملء هذا الحقل.', err_phone:'يرجى إدخال رقم هاتف صحيح.', err_email:'يرجى إدخال بريد إلكتروني صحيح.', err_year:'يرجى إدخال سنة صحيحة.', fix_fields:'يرجى إكمال الحقول المحددة.',
  docs_hint:'ارفع صوراً أو ملفات PDF. تتحول الصور إلى PDF تلقائياً، والمستند متعدد الصفحات يصبح ملف PDF واحداً.',
@@ -351,7 +351,7 @@ ar:{ _name:'العربية', _dir:'rtl',
  contact_text:'فريقنا جاهز للإجابة عن أسئلتك.', c_telegram:'تيليجرام', c_whatsapp:'واتساب', c_email:'البريد الإلكتروني', c_phone:'الهاتف',
  e_generic:'حدث خطأ ما. يرجى المحاولة مرة أخرى.', e_process:'تعذّرت معالجة المستند. يرجى رفعه مرة أخرى.', e_size:'حجم الملف كبير جداً (الحد الأقصى {n} ميغابايت).', e_format:'الملفات المدعومة فقط: PDF وJPG وJPEG وPNG.', e_submit:'تعذّر إرسال طلبك. لم تُفقد معلوماتك.', e_auth:'يرجى فتح التطبيق من بوت تيليجرام الخاص بنا.', e_network:'لا يوجد اتصال. يرجى التحقق من الإنترنت والمحاولة مرة أخرى.', e_load:'تعذّر تحميل أحدث المعلومات.', retry:'إعادة المحاولة',
  choose_lang:'اختر اللغة', close:'إغلاق', cancel:'إلغاء', yes_remove:'حذف', applying_to:'التقديم إلى', which_doc:'ما نوع هذا المستند؟', demo:'وضع تجريبي — الخادم غير متصل بعد.',
- doc_passport:'جواز السفر', doc_photo:'صورة شخصية', doc_highschool:'شهادة الثانوية', doc_bachelor:'شهادة البكالوريوس', doc_master:'شهادة الماجستير', doc_transcript:'كشف الدرجات', doc_cv:'السيرة الذاتية', doc_language:'شهادة اللغة', doc_other:'مستند آخر'
+ doc_degree:'شهادة آخر مرحلة دراسية', doc_passport:'جواز السفر', doc_photo:'صورة شخصية', doc_highschool:'شهادة الثانوية', doc_bachelor:'شهادة البكالوريوس', doc_master:'شهادة الماجستير', doc_transcript:'كشف الدرجات', doc_cv:'السيرة الذاتية', doc_language:'شهادة اللغة', doc_other:'مستند آخر'
 },
 ckb:{ _name:'کوردی', _dir:'rtl',
  brand:'ICA وەرگرتن', tagline:'وەرگرتنی خوێندکارانی نێودەوڵەتی', hero_t1:'لە ئێران بخوێنە،', hero_t2:'لێرەوە دەست پێ بکە.',
@@ -364,9 +364,9 @@ ckb:{ _name:'کوردی', _dir:'rtl',
  view_details:'بینینی وردەکاری', apply_uni:'پێشکەشکردن بۆ ئەم زانکۆیە', back_unis:'گەڕانەوە بۆ زانکۆکان', programs_count:'{n} بەرنامە', no_unis:'هیچ زانکۆیەک نەدۆزرایەوە.', required_docs:'بەڵگەنامە پێویستەکان', duration:'ماوە', teaching_lang:'زمانی خوێندن', apply_short:'پێشکەشکردن',
  lvl_bachelor:'بەکالۆریۆس', lvl_master:'ماستەر', lvl_phd:'دکتۆرا', lvl_medical:'پزیشکی', lvl_other:'هی تر',
  step_personal:'زانیاری کەسی', step_education:'خوێندن', step_program:'زانکۆ و بەرنامە', step_docs:'بەڵگەنامەکان', step_review:'پێداچوونەوە', step_of:'هەنگاوی {n} لە {t}',
- f_first:'ناوی یەکەم', f_name:'ناوی تەواو', f_last:'ناوی کۆتایی', f_dob:'بەرواری لەدایکبوون', f_gender:'ڕەگەز', male:'نێر', female:'مێ', f_nationality:'ڕەگەزنامە', f_residence:'وڵاتی نیشتەجێبوون', f_phone:'ژمارەی مۆبایل (واتسئاپ)', f_tg:'ناوی بەکارهێنەری تێلێگرام', f_email:'ئیمەیڵ', optional:'(ئارەزوومەندانە)', select:'هەڵبژێرە...',
- f_edu_level:'بەرزترین ئاستی خوێندن', edu_highschool:'ئامادەیی', edu_bachelor:'بەکالۆریۆس', edu_master:'ماستەر', edu_phd:'دکتۆرا', edu_other:'هی تر',
- f_prev_school:'زانکۆ / قوتابخانەی پێشوو', f_edu_field:'بەشی خوێندن', f_grad_year:'ساڵی دەرچوون', f_gpa:'نمرە / تێکڕا', f_prev_degree:'ناوی بڕوانامەی پێشوو', ph_prev_degree:'نموونە: بەکالۆریۆسی ئەندازیاری شارستانی',
+ f_first:'ناوی یەکەم', f_name:'ناوی تەواو', f_fullname:'ناوی سیانی', f_passport:'ژمارەی پاسپۆرت', err_passport:'تکایە ژمارەیەکی دروستی پاسپۆرت بنووسە.', preparing:'بەڵگەنامەکان ئامادە دەکرێن...', f_last:'ناوی کۆتایی', f_dob:'بەرواری لەدایکبوون', f_gender:'ڕەگەز', male:'نێر', female:'مێ', f_nationality:'ڕەگەزنامە', f_residence:'وڵاتی نیشتەجێبوون', f_phone:'ژمارەی مۆبایل (واتسئاپ)', f_tg:'ناوی بەکارهێنەری تێلێگرام', f_email:'ئیمەیڵ', optional:'(ئارەزوومەندانە)', select:'هەڵبژێرە...',
+ f_edu_level:'دوایین بڕوانامە', edu_highschool:'ئامادەیی', edu_bachelor:'بەکالۆریۆس', edu_master:'ماستەر', edu_phd:'دکتۆرا', edu_other:'هی تر',
+ f_prev_school:'زانکۆ / قوتابخانەی پێشوو', f_edu_field:'بەشی خوێندن (دوایین بڕوانامە)', f_grad_year:'ساڵی دەرچوون', f_gpa:'نمرە / تێکڕا', f_prev_degree:'ناوی بڕوانامەی پێشوو', ph_prev_degree:'نموونە: بەکالۆریۆسی ئەندازیاری شارستانی',
  f_country:'وڵات', f_university:'زانکۆ', f_degree:'ئاستی خوێندن', f_program:'بەرنامە', f_intake:'کاتی وەرگرتن',
  next:'بەردەوامبوون', prev:'گەڕانەوە', err_required:'تکایە ئەم خانەیە پڕ بکەرەوە.', err_phone:'تکایە ژمارەیەکی دروست بنووسە.', err_email:'تکایە ئیمەیڵێکی دروست بنووسە.', err_year:'تکایە ساڵێکی دروست بنووسە.', fix_fields:'تکایە خانە دیاریکراوەکان تەواو بکە.',
  docs_hint:'وێنە یان PDF بار بکە. وێنەکان خۆکارانە دەبنە PDF، و بەڵگەنامەی چەند پەڕەیی دەبێتە یەک PDF.',
@@ -382,7 +382,7 @@ ckb:{ _name:'کوردی', _dir:'rtl',
  contact_text:'تیمەکەمان ئامادەیە وەڵامی پرسیارەکانت بداتەوە.', c_telegram:'تێلێگرام', c_whatsapp:'واتسئاپ', c_email:'ئیمەیڵ', c_phone:'تەلەفۆن',
  e_generic:'هەڵەیەک ڕوویدا. تکایە دووبارە هەوڵ بدەرەوە.', e_process:'بەڵگەنامەکەت ئامادە نەکرا. تکایە دووبارە باری بکەرەوە.', e_size:'قەبارەی فایلەکە زۆر گەورەیە (زۆرترین {n} مێگابایت).', e_format:'تەنها فایلی PDF و JPG و JPEG و PNG پشتگیری دەکرێن.', e_submit:'داواکارییەکەت نەنێردرا. زانیارییەکانت ون نەبوون.', e_auth:'تکایە ئەم بەرنامەیە لە بۆتی تێلێگرامی ئێمەوە بکەرەوە.', e_network:'پەیوەندی ئینتەرنێت نییە. تکایە دووبارە هەوڵ بدەرەوە.', e_load:'نوێترین زانیاری بار نەکرا.', retry:'دووبارە هەوڵدانەوە',
  choose_lang:'زمان هەڵبژێرە', close:'داخستن', cancel:'هەڵوەشاندنەوە', yes_remove:'سڕینەوە', applying_to:'پێشکەشکردن بۆ', which_doc:'ئەمە چ بەڵگەنامەیەکە؟', demo:'دۆخی تاقیکردنەوە — ڕاژەکار هێشتا نەبەستراوە.',
- doc_passport:'پاسپۆرت', doc_photo:'وێنەی کەسی', doc_highschool:'بڕوانامەی ئامادەیی', doc_bachelor:'بڕوانامەی بەکالۆریۆس', doc_master:'بڕوانامەی ماستەر', doc_transcript:'کەشفی نمرە', doc_cv:'سیڤی', doc_language:'بڕوانامەی زمان', doc_other:'بەڵگەنامەی تر'
+ doc_degree:'بڕوانامەی دوایین قۆناغ', doc_passport:'پاسپۆرت', doc_photo:'وێنەی کەسی', doc_highschool:'بڕوانامەی ئامادەیی', doc_bachelor:'بڕوانامەی بەکالۆریۆس', doc_master:'بڕوانامەی ماستەر', doc_transcript:'کەشفی نمرە', doc_cv:'سیڤی', doc_language:'بڕوانامەی زمان', doc_other:'بەڵگەنامەی تر'
 }};
 
 /* =================== DEMO data (used only until API_URL is set) =================== */
@@ -423,8 +423,8 @@ function pagesTxt(n){ n = Number(n) || 1; return n === 1 ? t('page_1') : t('page
 function initials(n){ return String(n || '?').split(/\s+/).filter(w => /^[A-Z]/.test(w)).slice(0, 3).map(w => w[0]).join('') || String(n || '?').slice(0, 2); }
 function logoHTML(u){ return `<div class="uni-logo">${u.logo ? `<img src="${esc(u.logo)}" alt="" onerror="this.replaceWith(document.createTextNode('${esc(initials(u.name))}'))">` : esc(initials(u.name))}</div>`; }
 function haptic(k){ try { tg && tg.HapticFeedback && (k === 'ok' ? tg.HapticFeedback.notificationOccurred('success') : k === 'bad' ? tg.HapticFeedback.notificationOccurred('error') : tg.HapticFeedback.impactOccurred('light')); } catch(e){} }
-function studentName(){ const f = S.draft.form; return ((f.first_name || '') + '_' + (f.last_name || '')).replace(/^_|_$/g, '') || tgUser.first_name || 'Student'; }
-function requiredDocs(){ const p = progById(S.draft.form.program); return (p && p.docs && p.docs.length ? p.docs : CONFIG.DEFAULT_DOCS).filter(d => DOC_TYPES.includes(d)); }
+function studentName(){ return S.draft.form.full_name || tgUser.first_name || 'Student'; }
+function requiredDocs(){ return CONFIG.REQUIRED_DOCS.slice(); }
 
 /* storage: Telegram CloudStorage (syncs across devices) + localStorage fallback */
 const ls = { get:k => { try { return localStorage.getItem(k); } catch(e){ return null; } }, set:(k,v) => { try { localStorage.setItem(k, v); } catch(e){} }, del:k => { try { localStorage.removeItem(k); } catch(e){} } };
@@ -460,7 +460,7 @@ async function demoApi(action, d){
   if (action === 'submit'){
     const f = d.form, u = uniById(f.university), p = progById(f.program), id = 'ICA-' + new Date().getFullYear() + '-' + String(S.demoApps.length + 1).padStart(6, '0');
     const have = S.draftDocs.map(x => x.type);
-    S.demoApps.unshift({ id, submitted:new Date().toISOString().slice(0,10), status:'under_review', university:u.name, program:p.name, degree:p.level, intake:f.intake, documents:S.draftDocs.slice(), missing:(p.docs || []).filter(x => !have.includes(x)).map(x => I18N.en['doc_' + x]), messages:[] });
+    S.demoApps.unshift({ id, submitted:new Date().toISOString().slice(0,10), status:'under_review', university:u.name, program:p.name, degree:p.level, intake:f.intake, documents:S.draftDocs.slice(), missing:CONFIG.REQUIRED_DOCS.filter(x => !have.includes(x)).map(x => I18N.en['doc_' + x]), messages:[] });
     return { ok:true, appId:id, applications:S.demoApps };
   }
   if (action === 'getDoc') throw new AppError('e_generic');
@@ -604,7 +604,7 @@ function vUni(c){
   if (!u) return `<div class="wrap">${S.loaded ? `<div class="empty"><div class="e">🔎</div>${t('no_unis')}</div>` : `<div class="skel" style="margin-top:14px"></div>`}</div>`;
   const progs = S.cfg.programs.filter(p => p.uni === u.id);
   const byLv = LEVELS.map(l => [l, progs.filter(p => lvlKey(p.level) === l)]).filter(x => x[1].length);
-  const docs = [...new Set(progs.flatMap(p => p.docs && p.docs.length ? p.docs : CONFIG.DEFAULT_DOCS))];
+  const docs = CONFIG.REQUIRED_DOCS;
   const sec = (ic, k, body) => body ? `<section class="card d-sec"><h3>${ic} ${t(k)}</h3>${body}</section>` : '';
   return `<div class="wrap" style="padding-bottom:70px">
     <div class="d-hero">${logoHTML(u)}<h1>${esc(u.name)}</h1><p>📍 ${esc([u.city, u.country].filter(Boolean).join(', '))}</p>
@@ -623,18 +623,17 @@ function errBox(){ return `<div class="empty"><div class="e">⚠️</div><p>${t(
 /* ---------- application ---------- */
 const STEPS = ['step_personal','step_education','step_program','step_docs','step_review'];
 const FIELDS = {
-  1:[ {k:'first_name',l:'f_first',req:1}, {k:'last_name',l:'f_last',req:1}, {k:'dob',l:'f_dob',type:'date',req:1}, {k:'gender',l:'f_gender',type:'select',opts:['male','female'],req:1},
-      {k:'nationality',l:'f_nationality',list:'countries',req:1}, {k:'residence',l:'f_residence',list:'countries',req:1}, {k:'phone',l:'f_phone',type:'tel',req:1,v:'phone'},
-      {k:'telegram',l:'f_tg'}, {k:'email',l:'f_email',type:'email',v:'email'} ],
-  2:[ {k:'edu_level',l:'f_edu_level',type:'select',opts:['highschool','bachelor','master','phd','other'],prefix:'edu_',req:1}, {k:'prev_school',l:'f_prev_school',req:1},
-      {k:'edu_field',l:'f_edu_field',req:1}, {k:'grad_year',l:'f_grad_year',type:'number',req:1,v:'year'}, {k:'gpa',l:'f_gpa',req:1}, {k:'prev_degree',l:'f_prev_degree',ph:'ph_prev_degree'} ]
+  1:[ {k:'full_name',l:'f_fullname',req:1}, {k:'passport_no',l:'f_passport',req:1,v:'passport'}, {k:'phone',l:'f_phone',type:'tel',req:1,v:'phone'},
+      {k:'nationality',l:'f_nationality',list:'countries',req:1}, {k:'email',l:'f_email',type:'email',v:'email'}, {k:'telegram',l:'f_tg'} ],
+  2:[ {k:'edu_level',l:'f_edu_level',type:'select',opts:['highschool','bachelor','master'],prefix:'edu_',req:1},
+      {k:'edu_field',l:'f_edu_field',req:1}, {k:'grad_year',l:'f_grad_year',type:'number',req:1,v:'year'} ]
 };
 function fieldHTML(f){
   const v = S.draft.form[f.k] || '', er = S.errors[f.k];
   const lab = t(f.l) + (f.req ? '' : ` <span class="opt">${t('optional')}</span>`);
   const ctl = f.type === 'select'
     ? `<select class="in" id="f_${f.k}" data-k="${f.k}"><option value="">${t('select')}</option>${f.opts.map(o => `<option value="${o}" ${v === o ? 'selected' : ''}>${t((f.prefix || '') + o)}</option>`).join('')}</select>`
-    : `<input class="in" id="f_${f.k}" data-k="${f.k}" type="${f.type === 'number' ? 'text' : (f.type || 'text')}" value="${esc(v)}" ${f.list ? `list="dl_${f.list}"` : ''} ${f.ph ? `placeholder="${esc(t(f.ph))}"` : ''} ${f.type === 'tel' ? 'inputmode="tel" dir="ltr" placeholder="+964 7xx xxx xxxx"' : ''} ${f.type === 'email' ? 'inputmode="email" dir="ltr"' : ''} ${f.type === 'number' ? 'inputmode="numeric" maxlength="4" dir="ltr"' : ''} ${f.k === 'telegram' ? 'dir="ltr"' : ''} autocomplete="off">`;
+    : `<input class="in" id="f_${f.k}" data-k="${f.k}" type="${f.type === 'number' ? 'text' : (f.type || 'text')}" value="${esc(v)}" ${f.list ? `list="dl_${f.list}"` : ''} ${f.ph ? `placeholder="${esc(t(f.ph))}"` : ''} ${f.type === 'tel' ? 'inputmode="tel" dir="ltr" placeholder="+964 7xx xxx xxxx"' : ''} ${f.type === 'email' ? 'inputmode="email" dir="ltr"' : ''} ${f.type === 'number' ? 'inputmode="numeric" maxlength="4" dir="ltr"' : ''} ${f.k === 'telegram' || f.k === 'passport_no' ? 'dir="ltr"' : ''} ${f.k === 'passport_no' ? 'style="text-transform:uppercase"' : ''} autocomplete="off">`;
   return `<label class="field ${er ? 'has-err' : ''}" for="f_${f.k}"><span class="lab">${lab}</span>${ctl}${er ? `<div class="err">${t(er)}</div>` : ''}</label>`;
 }
 function selectHTML(k, l, opts, disabled){
@@ -700,17 +699,18 @@ function docsStep(){
   });
   const others = S.draftDocs.filter(d => !req.includes(d.type));
   if (others.length) h += `<p class="lvl-h">${t('other_docs')}</p>` + others.map(d => docRow(d)).join('');
+  else h += `<div class="doc"><div class="di">📎</div><div class="dm"><b>${t('doc_other')}</b><small>${t('doc_optional')}</small><div class="row-btns"><button class="btn btn-ghost btn-sm" data-act="addDoc" data-type="other">⬆️ ${t('upload')}</button></div></div></div>`;
   h += `<button class="btn btn-ghost" data-act="addDoc" style="margin-top:6px">➕ ${t('doc_add_other')}</button>`;
   return h;
 }
 function reviewStep(){
   const f = S.draft.form, u = uniById(f.university), p = progById(f.program);
-  const kv = (k, v) => v ? `<div class="kv"><span>${t(k)}</span><b>${esc(v)}</b></div>` : '';
+  const kv = (k, v) => v ? `<div class="kv"><span>${t(k)}</span><b><bdi>${esc(v)}</bdi></b></div>` : '';
   return `
   <div class="card rv"><h4>👤 ${t('step_personal')}</h4>
-    ${kv('f_name', f.first_name + ' ' + (f.last_name || ''))}${kv('f_dob', f.dob)}${kv('f_gender', f.gender ? t(f.gender) : '')}${kv('f_nationality', f.nationality)}${kv('f_residence', f.residence)}${kv('f_phone', f.phone)}${kv('f_tg', f.telegram)}${kv('f_email', f.email)}</div>
+    ${kv('f_fullname', f.full_name)}${kv('f_passport', (f.passport_no || '').replace(/\s/g, '').toUpperCase())}${kv('f_phone', f.phone)}${kv('f_nationality', f.nationality)}${kv('f_email', f.email)}${kv('f_tg', f.telegram)}</div>
   <div class="card rv"><h4>📚 ${t('step_education')}</h4>
-    ${kv('f_edu_level', f.edu_level ? t('edu_' + f.edu_level) : '')}${kv('f_prev_school', f.prev_school)}${kv('f_edu_field', f.edu_field)}${kv('f_prev_degree', f.prev_degree)}${kv('f_grad_year', f.grad_year)}${kv('f_gpa', f.gpa)}</div>
+    ${kv('f_edu_level', f.edu_level ? t('edu_' + f.edu_level) : '')}${kv('f_edu_field', f.edu_field)}${kv('f_grad_year', f.grad_year)}</div>
   <div class="card rv"><h4>🎓 ${t('step_program')}</h4>
     ${kv('f_university', u && u.name)}${kv('f_degree', f.degree_level ? t('lvl_' + f.degree_level) : '')}${kv('f_program', p && p.name)}${kv('f_intake', f.intake)}</div>
   <div class="card rv"><h4>📄 ${t('step_docs')}</h4>
@@ -725,6 +725,7 @@ function validateStep(n){
     if (x.req && !v) e[x.k] = 'err_required';
     else if (v && x.v === 'phone' && !/^\+?[\d\s()\-]{7,20}$/.test(v)) e[x.k] = 'err_phone';
     else if (v && x.v === 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) e[x.k] = 'err_email';
+    else if (v && x.v === 'passport' && !/^[A-Za-z0-9]{5,15}$/.test(v.replace(/\s/g, ''))) e[x.k] = 'err_passport';
     else if (v && x.v === 'year' && !(/^\d{4}$/.test(v) && +v > 1960 && +v <= new Date().getFullYear() + 1)) e[x.k] = 'err_year';
   });
   if (n === 3) ['country','university','degree_level','program','intake'].forEach(k => { if (!f[k]) e[k] = 'err_required'; });
@@ -777,17 +778,68 @@ async function submitApp(){
   if (!validateStep(3)){ S.draft.step = 3; render(true); return toast(t('fix_fields'), 'bad'); }
   await askWriteAccess();
   const f = Object.assign({}, S.draft.form);
-  if (f.gender) f.gender = I18N.en[f.gender];
+  f.passport_no = String(f.passport_no || '').replace(/\s/g, '').toUpperCase();
   if (f.edu_level) f.edu_level = I18N.en['edu_' + f.edu_level];
+  const docsSnap = S.draftDocs.slice();
   overlay(t('submitting'));
   try {
-    const r = await api('submit', { form:f, docIds:S.draftDocs.map(d => d.id), lang:S.lang });
+    const r = await api('submit', { form:f, docIds:docsSnap.map(d => d.id), lang:S.lang });
     S.apps = r.applications || S.apps; S.lastAppId = r.appId;
+    overlay(t('preparing'));
+    try {
+      const pdf = await buildCombined(r.appId, f, docsSnap);
+      await api('finalize', { appId:r.appId, pages:pdf.pages, data:toB64(pdf.bytes) });
+    } catch(e2){ console.error('combined PDF failed — the server sends the documents separately', e2); }
     S.draftDocs = []; S.draft = { step:1, form:{ telegram:f.telegram }, started:false }; store.del('ica_draft'); S.resumeShown = false;
     haptic('ok');
     S.stack = [{ v:'home' }, { v:'done', id:r.appId }]; render(true);
   } catch(e){ toast(t(e.key === 'e_auth' || e.key === 'e_network' ? e.key : 'e_submit'), 'bad'); haptic('bad'); }
   finally { hideOverlay(); }
+}
+/* one PDF for the admissions group: cover page (name, university, program) + all documents */
+async function coverJpeg(appId, f){
+  try { await document.fonts.ready; } catch(e){}
+  const W = 1240, H = 1754, c = document.createElement('canvas'); c.width = W; c.height = H;
+  const x = c.getContext('2d'), u = uniById(f.university), p = progById(f.program), font = "'Plus Jakarta Sans','Noto Sans Arabic',Arial,sans-serif";
+  x.fillStyle = '#fff'; x.fillRect(0, 0, W, H);
+  x.fillStyle = '#0B1F3A'; x.fillRect(0, 0, W, 300);
+  x.fillStyle = '#C9A24A'; x.fillRect(0, 300, W, 10);
+  x.fillStyle = '#E8C877'; x.font = `800 64px ${font}`; x.textBaseline = 'middle'; x.fillText('ICA', 100, 125);
+  x.fillStyle = '#fff'; x.font = `700 40px ${font}`; x.fillText('Student Application', 100, 205);
+  x.fillStyle = '#C9D4E5'; x.font = `500 30px ${font}`; x.textAlign = 'right'; x.fillText(appId, W - 100, 205); x.textAlign = 'left';
+  const rows = [['Name', f.full_name], ['University', u ? u.name : ''], ['Field of study', p ? p.name : '']];
+  let y = 450;
+  rows.forEach(([k, v]) => {
+    x.fillStyle = '#C9A24A'; x.font = `700 30px ${font}`; x.direction = 'ltr'; x.textAlign = 'left'; x.fillText(k.toUpperCase(), 100, y);
+    const rtl = /[\u0590-\u08FF]/.test(v || '');
+    x.fillStyle = '#0E1726'; x.font = `700 54px ${font}`; x.direction = rtl ? 'rtl' : 'ltr'; x.textAlign = rtl ? 'right' : 'left';
+    let txt = String(v || '—'); while (x.measureText(txt).width > W - 200 && txt.length > 4) txt = txt.slice(0, -2);
+    x.fillText(txt, rtl ? W - 100 : 100, y + 70);
+    x.direction = 'ltr'; x.textAlign = 'left';
+    x.fillStyle = '#E2E7EF'; x.fillRect(100, y + 130, W - 200, 3);
+    y += 230;
+  });
+  x.fillStyle = '#5B6678'; x.font = `500 26px ${font}`; x.fillText('Documents attached: ' + new Date().toISOString().slice(0, 10), 100, H - 100);
+  const blob = await new Promise(r => c.toBlob(r, 'image/jpeg', 0.92));
+  return new Uint8Array(await blob.arrayBuffer());
+}
+async function buildCombined(appId, f, docs){
+  await ensurePdfLib();
+  const { PDFDocument } = window.PDFLib, out = await PDFDocument.create();
+  const cover = await out.embedJpg(await coverJpeg(appId, f));
+  out.addPage([595, 842]).drawImage(cover, { x:0, y:0, width:595, height:842 });
+  const order = CONFIG.REQUIRED_DOCS.concat(DOC_TYPES);
+  const sorted = docs.slice().sort((a, b) => order.indexOf(a.type) - order.indexOf(b.type));
+  for (const d of sorted){
+    let bytes = S.pdfCache[d.id];
+    if (!bytes && !IS_DEMO){ const r = await api('getDoc', { docId:d.id }); bytes = fromB64(r.data); }
+    if (!bytes) continue;
+    const src = await PDFDocument.load(bytes, { ignoreEncryption:true });
+    (await out.copyPages(src, src.getPageIndices())).forEach(pg => out.addPage(pg));
+  }
+  const bytes = await out.save();
+  if (IS_DEMO) S.lastCombined = bytes;
+  return { bytes, pages: out.getPageCount() };
 }
 function askWriteAccess(){
   return new Promise(res => {
