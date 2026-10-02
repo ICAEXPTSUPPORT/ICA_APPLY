@@ -1,0 +1,1085 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<title>ICA Admissions</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* ===== Brand tokens — change colors here ===== */
+:root{
+  --navy:#0B1F3A; --navy-2:#13305B; --navy-3:#1D4277;
+  --gold:#C9A24A; --gold-2:#E8C877; --gold-ink:#3A2A05;
+  --bg:#F3F5F9; --card:#FFFFFF; --text:#0E1726; --muted:#5B6678; --line:#E2E7EF; --soft:#EEF2F8;
+  --ok:#15803D; --ok-bg:#E7F6EC; --warn:#B45309; --warn-bg:#FEF3E2; --bad:#B91C1C; --bad-bg:#FDECEC; --info:#1D4ED8; --info-bg:#E8EEFD;
+  --r:18px; --r-sm:12px; --shadow:0 6px 24px rgba(11,31,58,.08); --shadow-lg:0 18px 50px rgba(11,31,58,.18);
+  --safe-b:env(safe-area-inset-bottom,0px);
+  --font:'Plus Jakarta Sans','Noto Sans Arabic',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+}
+:root[data-theme="dark"]{
+  --bg:#08111F; --card:#0F1C31; --text:#E7ECF4; --muted:#93A2B8; --line:#1C2C46; --soft:#13233D;
+  --ok-bg:#0E2A1A; --warn-bg:#2E1F08; --bad-bg:#2D1013; --info-bg:#0F1E40; --shadow:0 6px 24px rgba(0,0,0,.35);
+}
+[dir="rtl"]{ --font:'Noto Sans Arabic','Plus Jakarta Sans',system-ui,sans-serif; }
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:var(--font);font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased}
+body{overflow-x:hidden;min-height:100vh}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer;border:0;background:none}
+img{max-width:100%;display:block}
+h1,h2,h3,h4{margin:0;line-height:1.25}
+p{margin:0}
+.wrap{max-width:640px;margin:0 auto;padding:0 16px}
+#view{padding-bottom:calc(96px + var(--safe-b));animation:fade .25s ease}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+/* top bar */
+.topbar{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.topbar .wrap{display:flex;align-items:center;gap:8px;height:56px}
+.topbar h2{flex:1;font-size:17px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.icon-btn{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;background:var(--card);border:1px solid var(--line);font-size:18px}
+[dir="rtl"] .flip{transform:scaleX(-1)}
+
+/* hero */
+.hero{background:radial-gradient(120% 90% at 100% 0%,var(--navy-3) 0%,var(--navy) 55%,#071428 100%);color:#fff;padding:18px 0 34px;position:relative;overflow:hidden;border-radius:0 0 28px 28px}
+.hero::before{content:"";position:absolute;inset:auto -60px -90px auto;width:260px;height:260px;border-radius:50%;border:1px solid rgba(232,200,119,.25)}
+.hero::after{content:"";position:absolute;inset:-80px auto auto -70px;width:220px;height:220px;border-radius:50%;background:radial-gradient(circle,rgba(201,162,74,.22),transparent 70%)}
+.hero-top{display:flex;align-items:center;justify-content:space-between;position:relative;z-index:1}
+.brand{display:flex;align-items:center;gap:10px}
+.logo-mark{width:44px;height:44px;border-radius:12px;background:linear-gradient(145deg,var(--gold-2),var(--gold));display:grid;place-items:center;color:var(--gold-ink);font-weight:800;font-size:14px;letter-spacing:.5px;overflow:hidden;flex:none}
+.logo-mark img{width:100%;height:100%;object-fit:cover}
+.brand b{display:block;font-size:15px;letter-spacing:.3px}
+.brand small{display:block;font-size:12px;color:var(--gold-2);opacity:.95}
+.lang-pill{display:flex;align-items:center;gap:6px;padding:8px 12px;border-radius:999px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);color:#fff;font-size:13px;font-weight:600}
+.hero h1{font-size:28px;font-weight:800;margin:26px 0 8px;position:relative;z-index:1;letter-spacing:-.3px}
+.hero h1 span{color:var(--gold-2)}
+.hero p.lead{color:#C9D4E5;font-size:15px;max-width:440px;position:relative;z-index:1}
+.hero-cta{display:grid;gap:12px;margin-top:22px;position:relative;z-index:1}
+.big-btn{display:flex;align-items:center;gap:14px;padding:16px 18px;border-radius:16px;font-weight:700;font-size:16px;text-align:start;transition:transform .15s}
+.big-btn:active{transform:scale(.98)}
+.big-btn .ico{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;font-size:22px;flex:none}
+.big-btn small{display:block;font-weight:500;font-size:12.5px;opacity:.8;margin-top:1px}
+.big-btn.gold{background:linear-gradient(135deg,var(--gold-2),var(--gold));color:var(--gold-ink);box-shadow:0 10px 26px rgba(201,162,74,.35)}
+.big-btn.gold .ico{background:rgba(255,255,255,.35)}
+.big-btn.glass{background:rgba(255,255,255,.09);color:#fff;border:1px solid rgba(255,255,255,.2)}
+.big-btn.glass .ico{background:rgba(255,255,255,.12)}
+.big-btn .arrow{margin-inline-start:auto;opacity:.7;font-size:18px}
+
+/* sections */
+.section{margin-top:22px}
+.section-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.section-h h3{font-size:16px;font-weight:700}
+.quick{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:-18px;position:relative;z-index:2}
+.quick button{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px 4px;display:flex;flex-direction:column;align-items:center;gap:6px;font-size:12px;font-weight:600;box-shadow:var(--shadow);min-height:78px;color:var(--text)}
+.quick button span{font-size:22px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px;box-shadow:var(--shadow)}
+.card + .card{margin-top:12px}
+.trust{display:grid;gap:10px}
+.trust .row{display:flex;gap:12px;align-items:flex-start}
+.trust .row span{width:36px;height:36px;border-radius:10px;background:var(--soft);display:grid;place-items:center;flex:none}
+.trust .row p{font-size:14px;color:var(--muted)}
+.trust .row b{display:block;color:var(--text);font-size:14.5px}
+.banner{display:flex;gap:12px;align-items:center;background:var(--warn-bg);border:1px solid color-mix(in srgb,var(--warn) 30%,transparent);border-radius:var(--r);padding:14px;margin-top:16px}
+.banner p{flex:1;font-size:14px;font-weight:600}
+.banner.info{background:var(--info-bg);border-color:color-mix(in srgb,var(--info) 25%,transparent)}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:50px;padding:0 18px;border-radius:14px;font-weight:700;font-size:15.5px;transition:transform .12s,opacity .2s;width:100%}
+.btn:active{transform:scale(.98)}
+.btn[disabled]{opacity:.45;pointer-events:none}
+.btn-gold{background:linear-gradient(135deg,var(--gold-2),var(--gold));color:var(--gold-ink)}
+.btn-navy{background:var(--navy);color:#fff}
+:root[data-theme="dark"] .btn-navy{background:var(--navy-3)}
+.btn-ghost{background:var(--card);border:1.5px solid var(--line);color:var(--text)}
+.btn-sm{min-height:38px;padding:0 12px;font-size:13.5px;border-radius:10px;width:auto}
+.btn-danger{color:var(--bad)}
+.row-btns{display:flex;gap:8px;flex-wrap:wrap}
+.link{color:var(--info);font-weight:600;font-size:14px}
+
+/* chips & badges */
+.chips{display:flex;gap:8px;overflow-x:auto;padding:2px 0 6px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;padding:8px 14px;border-radius:999px;background:var(--card);border:1px solid var(--line);font-size:13.5px;font-weight:600;color:var(--muted)}
+.chip.on{background:var(--navy);border-color:var(--navy);color:#fff}
+.tag{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:999px;background:var(--soft);font-size:12.5px;font-weight:600;color:var(--muted)}
+.badge{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:999px;font-weight:700;font-size:13px}
+.badge.under_review{background:var(--warn-bg);color:var(--warn)}
+.badge.accepted{background:var(--ok-bg);color:var(--ok)}
+.badge.rejected{background:var(--bad-bg);color:var(--bad)}
+.badge.more_docs{background:#FFEDD5;color:#C2410C}
+:root[data-theme="dark"] .badge.more_docs{background:#3A1E0B;color:#FDBA74}
+
+/* search */
+.search{display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:0 14px;height:50px;margin:14px 0 10px}
+.search input{flex:1;border:0;background:none;outline:none;font-size:15px;min-width:0}
+
+/* university cards */
+.uni-card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow);margin-bottom:14px;animation:fade .3s ease both}
+.uni-head{display:flex;gap:12px;align-items:center;padding:16px 16px 10px}
+.uni-logo{width:54px;height:54px;border-radius:14px;flex:none;background:linear-gradient(145deg,var(--navy-3),var(--navy));color:var(--gold-2);display:grid;place-items:center;font-weight:800;font-size:16px;overflow:hidden;border:1px solid var(--line)}
+.uni-logo img{width:100%;height:100%;object-fit:contain;background:#fff}
+.uni-head h3{font-size:16.5px;font-weight:700}
+.uni-head p{font-size:13.5px;color:var(--muted);margin-top:2px}
+.uni-body{padding:0 16px 14px}
+.uni-body .desc{font-size:14px;color:var(--muted);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin-bottom:10px}
+.facts{display:grid;gap:8px;margin:10px 0 2px}
+.fact{display:flex;gap:10px;align-items:flex-start;font-size:14px}
+.fact .k{flex:none;width:22px;text-align:center}
+.fact div{min-width:0}
+.fact b{display:block;font-size:12.5px;color:var(--muted);font-weight:600}
+.fact span{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.uni-foot{border-top:1px solid var(--line);padding:12px 16px}
+
+/* details */
+.d-hero{background:linear-gradient(160deg,var(--navy-3),var(--navy));color:#fff;border-radius:var(--r);padding:20px;margin-top:14px;position:relative;overflow:hidden}
+.d-hero .uni-logo{width:64px;height:64px;border-color:rgba(255,255,255,.2)}
+.d-hero h1{font-size:22px;margin-top:14px}
+.d-hero p{color:#C9D4E5;font-size:14px;margin-top:4px}
+.d-hero .tag{background:rgba(255,255,255,.12);color:#fff}
+.d-sec{margin-top:14px}
+.d-sec h3{font-size:15px;font-weight:700;display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.d-sec .txt{font-size:14.5px;color:var(--muted);white-space:pre-line}
+.prog{display:flex;gap:12px;align-items:center;padding:12px 0;border-top:1px solid var(--line);width:100%;text-align:start}
+.prog:first-of-type{border-top:0;padding-top:4px}
+.prog .pi{flex:1;min-width:0}
+.prog b{display:block;font-size:14.5px}
+.prog small{display:block;color:var(--muted);font-size:12.5px;margin-top:2px}
+.prog .go{color:var(--gold);font-weight:700;font-size:13px;flex:none}
+.lvl-h{font-size:12.5px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:.6px;margin:14px 0 2px}
+.sticky-cta{position:fixed;inset:auto 0 0 0;z-index:25;background:color-mix(in srgb,var(--card) 92%,transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-top:1px solid var(--line);padding:10px 0 calc(10px + var(--safe-b))}
+.sticky-cta .wrap{display:grid;gap:8px}
+
+/* apply */
+.progress{display:flex;gap:6px;margin:16px 0 6px}
+.progress i{flex:1;height:5px;border-radius:5px;background:var(--line);transition:background .3s}
+.progress i.on{background:linear-gradient(90deg,var(--gold),var(--gold-2))}
+.step-meta{font-size:12.5px;color:var(--muted);font-weight:600}
+.step-title{font-size:21px;font-weight:800;margin:4px 0 14px}
+.field{display:block;margin-bottom:14px}
+.field .lab{display:block;font-size:13.5px;font-weight:600;margin-bottom:6px}
+.opt{color:var(--muted);font-weight:500}
+.in{width:100%;height:50px;border-radius:12px;border:1.5px solid var(--line);background:var(--card);padding:0 14px;font-size:15.5px;outline:none;transition:border-color .15s,box-shadow .15s;-webkit-appearance:none;appearance:none}
+select.in{background-image:linear-gradient(45deg,transparent 50%,var(--muted) 50%),linear-gradient(135deg,var(--muted) 50%,transparent 50%);background-position:calc(100% - 20px) 22px,calc(100% - 15px) 22px;background-size:5px 5px;background-repeat:no-repeat;padding-inline-end:36px}
+[dir="rtl"] select.in{background-position:20px 22px,15px 22px}
+.in:focus{border-color:var(--gold);box-shadow:0 0 0 4px color-mix(in srgb,var(--gold) 18%,transparent)}
+.in:disabled{opacity:.55}
+.has-err .in{border-color:var(--bad)}
+.err{color:var(--bad);font-size:12.5px;margin-top:5px;font-weight:600}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:0 12px}
+.preset{display:flex;gap:10px;align-items:center;background:var(--info-bg);border-radius:var(--r-sm);padding:12px 14px;margin-bottom:14px;font-size:14px}
+.actionbar{position:fixed;inset:auto 0 0 0;z-index:25;background:color-mix(in srgb,var(--card) 94%,transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-top:1px solid var(--line);padding:10px 0 calc(10px + var(--safe-b))}
+.actionbar .wrap{display:grid;grid-template-columns:1fr 2fr;gap:10px}
+.saved{font-size:12px;color:var(--ok);font-weight:600;opacity:0;transition:opacity .3s}
+.saved.show{opacity:1}
+
+/* documents */
+.doc{display:flex;gap:12px;align-items:flex-start;padding:14px;border:1px solid var(--line);border-radius:14px;background:var(--card);margin-bottom:10px}
+.doc .di{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;font-size:20px;flex:none;background:var(--soft)}
+.doc.ok .di{background:var(--ok-bg)}
+.doc.need .di{background:var(--warn-bg)}
+.doc .dm{flex:1;min-width:0}
+.doc .dm b{display:block;font-size:14.5px}
+.doc .dm small{display:block;color:var(--muted);font-size:12.5px;word-break:break-all}
+.doc .row-btns{margin-top:10px}
+.hint{font-size:13.5px;color:var(--muted);background:var(--soft);border-radius:var(--r-sm);padding:12px 14px;margin-bottom:14px}
+
+/* review */
+.rv h4{font-size:13px;color:var(--gold);letter-spacing:.5px;text-transform:uppercase;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.kv{display:flex;justify-content:space-between;gap:14px;padding:7px 0;border-bottom:1px dashed var(--line);font-size:14px}
+.kv:last-child{border-bottom:0}
+.kv span{color:var(--muted)}
+.kv b{text-align:end;font-weight:600;word-break:break-word}
+
+/* done */
+.done{text-align:center;padding-top:34px}
+.done .tick{width:88px;height:88px;border-radius:50%;margin:0 auto 18px;background:linear-gradient(145deg,var(--gold-2),var(--gold));display:grid;place-items:center;font-size:42px;box-shadow:0 14px 34px rgba(201,162,74,.4);animation:pop .5s cubic-bezier(.2,1.4,.4,1)}
+@keyframes pop{from{transform:scale(.3);opacity:0}to{transform:none;opacity:1}}
+.idbox{background:var(--card);border:1.5px dashed var(--gold);border-radius:var(--r);padding:16px;margin:20px 0 14px}
+.idbox b{display:block;font-size:22px;letter-spacing:.5px;margin-top:4px;direction:ltr}
+
+/* bottom nav */
+.bnav{position:fixed;inset:auto 0 0 0;z-index:30;background:color-mix(in srgb,var(--card) 94%,transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-top:1px solid var(--line);padding-bottom:var(--safe-b)}
+.bnav .wrap{display:grid;grid-template-columns:repeat(4,1fr);height:64px;padding:0 6px}
+.bnav button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-size:11.5px;font-weight:600;color:var(--muted);position:relative}
+.bnav button span{font-size:21px;filter:grayscale(.6);opacity:.75;transition:.2s}
+.bnav button.on{color:var(--text)}
+.bnav button.on span{filter:none;opacity:1;transform:translateY(-1px)}
+.bnav button.on::after{content:"";position:absolute;top:0;width:28px;height:3px;border-radius:0 0 3px 3px;background:var(--gold)}
+
+/* sheet, modal, overlay, toast */
+.backdrop{position:fixed;inset:0;background:rgba(5,12,24,.55);z-index:50;opacity:0;pointer-events:none;transition:opacity .2s}
+.backdrop.open{opacity:1;pointer-events:auto}
+.sheet{position:fixed;inset:auto 0 0 0;z-index:60;background:var(--card);border-radius:24px 24px 0 0;max-height:92vh;overflow-y:auto;transform:translateY(105%);transition:transform .28s cubic-bezier(.2,.9,.3,1);padding:8px 0 calc(16px + var(--safe-b));box-shadow:var(--shadow-lg)}
+.sheet.open{transform:none}
+.sheet .grab{width:42px;height:5px;border-radius:5px;background:var(--line);margin:4px auto 12px}
+.sheet h3{font-size:18px;font-weight:800;margin-bottom:12px}
+.pages{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:12px 0}
+.pg{position:relative;aspect-ratio:3/4;border-radius:12px;overflow:hidden;background:var(--soft);border:1px solid var(--line);display:grid;place-items:center;text-align:center;font-size:11px;color:var(--muted);padding:4px}
+.pg img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.pg .n{position:absolute;bottom:6px;inset-inline-start:6px;background:rgba(0,0,0,.6);color:#fff;font-size:11px;font-weight:700;border-radius:6px;padding:1px 6px}
+.pg .x{position:absolute;top:5px;inset-inline-end:5px;width:26px;height:26px;border-radius:50%;background:rgba(0,0,0,.65);color:#fff;font-size:13px;display:grid;place-items:center}
+.pg .pdf{font-size:30px;display:block;margin-bottom:4px}
+.add-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.filebtn{position:relative;overflow:hidden}
+.filebtn input{position:absolute;inset:0;opacity:0;cursor:pointer;font-size:0}
+.modal{position:fixed;inset:0;z-index:70;display:grid;place-items:center;padding:20px;pointer-events:none}
+.modal .box{background:var(--card);border-radius:22px;padding:22px;width:100%;max-width:400px;box-shadow:var(--shadow-lg);transform:scale(.94);opacity:0;transition:.2s;pointer-events:auto}
+.modal.open .box{transform:none;opacity:1}
+.modal h3{font-size:18px;margin-bottom:8px}
+.modal p{color:var(--muted);font-size:14.5px;margin-bottom:18px}
+.modal .stack{display:grid;gap:10px}
+.lang-opt{display:flex;align-items:center;justify-content:space-between;padding:16px;border-radius:14px;border:1.5px solid var(--line);font-weight:700;width:100%}
+.lang-opt.on{border-color:var(--gold);background:color-mix(in srgb,var(--gold) 10%,transparent)}
+.overlay{position:fixed;inset:0;z-index:90;background:rgba(5,12,24,.6);display:none;place-items:center;backdrop-filter:blur(3px)}
+.overlay.open{display:grid}
+.overlay .box{background:var(--card);border-radius:20px;padding:24px 28px;display:flex;flex-direction:column;align-items:center;gap:14px;font-weight:700;min-width:220px;text-align:center}
+.spin{width:42px;height:42px;border-radius:50%;border:4px solid var(--line);border-top-color:var(--gold);animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.toast{position:fixed;left:50%;bottom:calc(90px + var(--safe-b));transform:translate(-50%,20px);z-index:95;background:var(--navy);color:#fff;padding:12px 18px;border-radius:14px;font-size:14px;font-weight:600;opacity:0;transition:.25s;max-width:calc(100% - 32px);box-shadow:var(--shadow-lg);pointer-events:none;text-align:center}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.toast.bad{background:var(--bad)}
+.toast.ok{background:var(--ok)}
+.preview{position:fixed;inset:0;z-index:80;background:#1b2230;display:none;flex-direction:column}
+.preview.open{display:flex}
+.preview .pv-top{display:flex;align-items:center;gap:10px;padding:10px 14px;color:#fff;font-weight:700;font-size:14px}
+.preview .icon-btn{background:rgba(255,255,255,.15);border-color:transparent;color:#fff}
+.preview .pv-top span{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.preview .pv-body{flex:1;overflow:auto;padding:0 12px 24px}
+.preview canvas{width:100%;height:auto;display:block;margin:0 auto 12px;border-radius:6px;background:#fff;max-width:760px}
+.skel{border-radius:var(--r);background:linear-gradient(90deg,var(--soft) 25%,var(--line) 50%,var(--soft) 75%);background-size:300% 100%;animation:sh 1.3s infinite;height:190px;margin-bottom:14px}
+@keyframes sh{from{background-position:100% 0}to{background-position:0 0}}
+.empty{text-align:center;padding:40px 10px;color:var(--muted)}
+.empty .e{font-size:44px;margin-bottom:10px}
+.msg{padding:12px 14px;border-radius:14px;background:var(--soft);margin-bottom:8px;font-size:14px;white-space:pre-line}
+.msg small{display:block;color:var(--muted);font-size:12px;margin-bottom:4px}
+.contact a{display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid var(--line);text-decoration:none;color:var(--text);font-weight:600}
+.contact a:last-child{border-bottom:0}
+.contact a span{width:40px;height:40px;border-radius:12px;background:var(--soft);display:grid;place-items:center;font-size:20px}
+@media (min-width:560px){.hero h1{font-size:34px}.quick button{font-size:13px}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<header class="topbar" id="topbar" hidden></header>
+<main id="view"></main>
+<div id="bottom"></div>
+<div class="backdrop" id="backdrop"></div>
+<div class="sheet" id="sheet"></div>
+<div class="modal" id="modal"></div>
+<div class="preview" id="preview"></div>
+<div class="overlay" id="overlay"><div class="box"><div class="spin"></div><div id="overlayText"></div></div></div>
+<div class="toast" id="toast"></div>
+<datalist id="dl_countries"></datalist>
+
+<script>
+/* =================== CONFIG — edit these =================== */
+const CONFIG = {
+  API_URL: 'PASTE_YOUR_APPS_SCRIPT_WEB_APP_URL_HERE',   // https://script.google.com/macros/s/.../exec
+  LOGO: 'logo.png',                                      // upload logo.png next to index.html (optional)
+  CONTACT: { telegram: '', whatsapp: '', email: '', phone: '' }, // e.g. 'https://t.me/yourname', '+98912...', 'info@...'
+  MAX_MB: 15,                                            // max size of one document (after PDF)
+  DEFAULT_DOCS: ['passport', 'photo', 'transcript']      // used when a program has no required_docs
+};
+const DOC_TYPES = ['passport','photo','highschool','bachelor','master','transcript','cv','language','other'];
+const DOC_ICON = {passport:'🛂',photo:'🖼️',highschool:'🎒',bachelor:'🎓',master:'🎓',transcript:'📑',cv:'📄',language:'🗣️',other:'📎'};
+const LEVELS = ['bachelor','master','phd','medical','other'];
+const STATUS_ICON = {under_review:'🟡',accepted:'🟢',rejected:'🔴',more_docs:'🟠'};
+const COUNTRIES = ['Iraq','Syria','Lebanon','Afghanistan','Pakistan','India','Yemen','Bahrain','Kuwait','Saudi Arabia','Oman','Qatar','United Arab Emirates','Azerbaijan','Tajikistan','Turkey','Iran','Jordan','Egypt','Nigeria','Other'];
+
+/* =================== TRANSLATIONS (add a language = add a block) =================== */
+const I18N = {
+en:{ _name:'English', _dir:'ltr',
+ brand:'ICA Admissions', tagline:'International Student Admissions', hero_t1:'Study in Iran,', hero_t2:'start here.',
+ hero_desc:'Explore universities, programs and admission opportunities, or submit your application online.',
+ explore:'Explore Universities', explore_sub:'Programs, fees & requirements', apply_now:'Apply Now', apply_sub:'Takes about 10 minutes',
+ nav_home:'Home', nav_unis:'Universities', nav_apply:'Apply', nav_my:'My Application', about:'About Us', contact:'Contact Us', language:'Language',
+ why_t:'Why apply with ICA', why1_b:'End-to-end service', why1:'From application to admission letter.', why2_b:'Visa & residence permit', why2:'We handle the paperwork for you.', why3_b:'Track everything in Telegram', why3:'Status updates and messages from our team.',
+ back:'Back', home:'Home', loading_unis:'Loading universities...', uploading:'Uploading document...', processing:'Processing PDF...', submitting:'Submitting application...', loading:'Loading...',
+ search_unis:'Search universities or programs', all:'All', intake:'Intake', programs:'Programs', tuition:'Tuition Fees', requirements:'Admission Requirements', recognition:'Recognition', overview:'Overview', location:'Location',
+ view_details:'View Details', apply_uni:'Apply to this University', back_unis:'Back to Universities', programs_count:'{n} programs', no_unis:'No universities found.', required_docs:'Required documents', duration:'Duration', teaching_lang:'Language', apply_short:'Apply',
+ lvl_bachelor:"Bachelor's", lvl_master:"Master's", lvl_phd:'PhD', lvl_medical:'Medical', lvl_other:'Other',
+ step_personal:'Personal Information', step_education:'Education', step_program:'University & Program', step_docs:'Documents', step_review:'Review', step_of:'Step {n} of {t}',
+ f_first:'First name', f_name:'Full name', f_last:'Last name', f_dob:'Date of birth', f_gender:'Gender', male:'Male', female:'Female', f_nationality:'Nationality', f_residence:'Country of residence', f_phone:'Phone number (WhatsApp)', f_tg:'Telegram username', f_email:'Email address', optional:'(optional)', select:'Select...',
+ f_edu_level:'Highest education level', edu_highschool:'High school', edu_bachelor:"Bachelor's", edu_master:"Master's", edu_phd:'PhD', edu_other:'Other',
+ f_prev_school:'Previous university / school', f_edu_field:'Field of study', f_grad_year:'Graduation year', f_gpa:'GPA / Grade', f_prev_degree:'Previous degree title', ph_prev_degree:'e.g. BSc Civil Engineering',
+ f_country:'Country', f_university:'University', f_degree:'Degree level', f_program:'Program', f_intake:'Intake',
+ next:'Continue', prev:'Back', err_required:'Please fill in this field.', err_phone:'Please enter a valid phone number.', err_email:'Please enter a valid email address.', err_year:'Please enter a valid year.', fix_fields:'Please complete the highlighted fields.',
+ docs_hint:'Upload photos or PDFs. Photos are turned into a PDF automatically, and a document with several pages becomes one PDF.',
+ doc_required:'Required', doc_optional:'Optional', not_uploaded:'Not uploaded yet', other_docs:'Other documents', doc_add_other:'Add Document', take_photo:'Take photo', choose_files:'Choose files',
+ pages_n:'{n} pages', page_1:'1 page', save_doc:'Save document', replace:'Replace', remove:'Remove', preview:'Preview', upload:'Upload', confirm_remove:'Remove this document?', doc_label:'Document name',
+ missing_required:'These required documents are missing: {list}. You can continue now and upload them later from My Application.', upload_now:'Upload now', continue_anyway:'Continue anyway',
+ review_title:'Review Your Application', edit_info:'Edit Information', edit_docs:'Edit Documents', submit:'Submit Application', no_docs:'No documents uploaded',
+ done_title:'Application Submitted', done_text:'Thank you. Your application has been successfully submitted.', app_id:'Application ID', status:'Status', done_contact:'Our admissions team will review your application and contact you through Telegram or your provided contact information.', return_home:'Return to Home', view_app:'View My Application',
+ st_under_review:'Under Review', st_accepted:'Accepted', st_rejected:'Rejected', st_more_docs:'More Documents Required',
+ my_title:'My Application', my_apps:'My Applications', my_empty:"You haven't submitted an application yet.", submitted_on:'Submitted', documents:'Documents', missing:'Missing documents', messages:'Messages from admissions', upload_extra:'Upload additional document', no_messages:'No messages yet.', refresh:'Refresh',
+ resume_title:'You have an unfinished application.', resume_text:'Continue where you stopped, or start a new one.', continue_app:'Continue Application', start_new:'Start New Application', saved:'✓ Saved',
+ about_text:'Iranian Counselling Affairs (ICA) helps international students choose the right university in Iran and handles the whole journey for them: application, admission, visa and education residence permit.',
+ contact_text:'Our team is happy to answer your questions.', c_telegram:'Telegram', c_whatsapp:'WhatsApp', c_email:'Email', c_phone:'Phone',
+ e_generic:'Something went wrong. Please try again.', e_process:'Your document could not be processed. Please upload it again.', e_size:'File size is too large (max {n} MB).', e_format:'Only PDF, JPG, JPEG and PNG files are supported.', e_submit:'Your application could not be submitted. Your information has not been lost.', e_auth:'Please open this app from our Telegram bot.', e_network:'No connection. Please check your internet and try again.', e_load:"We couldn't load the latest information.", retry:'Try again',
+ choose_lang:'Choose language', close:'Close', cancel:'Cancel', yes_remove:'Remove', applying_to:'Applying to', which_doc:'Which document is this?', demo:'Demo mode — the backend is not connected yet.',
+ doc_passport:'Passport', doc_photo:'Personal Photo', doc_highschool:'High School Diploma', doc_bachelor:"Bachelor's Diploma", doc_master:"Master's Diploma", doc_transcript:'Transcript', doc_cv:'CV', doc_language:'Language Certificate', doc_other:'Other Document'
+},
+ar:{ _name:'العربية', _dir:'rtl',
+ brand:'ICA للقبول', tagline:'قبول الطلاب الدوليين', hero_t1:'ادرس في إيران،', hero_t2:'ابدأ من هنا.',
+ hero_desc:'تعرّف على الجامعات والبرامج وفرص القبول، أو قدّم طلبك عبر الإنترنت.',
+ explore:'استكشف الجامعات', explore_sub:'البرامج والرسوم والشروط', apply_now:'قدّم الآن', apply_sub:'يستغرق حوالي 10 دقائق',
+ nav_home:'الرئيسية', nav_unis:'الجامعات', nav_apply:'التقديم', nav_my:'طلبي', about:'من نحن', contact:'اتصل بنا', language:'اللغة',
+ why_t:'لماذا تقدّم مع ICA', why1_b:'خدمة متكاملة', why1:'من التقديم حتى خطاب القبول.', why2_b:'التأشيرة والإقامة الدراسية', why2:'نتولى جميع الإجراءات عنك.', why3_b:'تابع كل شيء في تيليجرام', why3:'تحديثات الحالة ورسائل فريقنا.',
+ back:'رجوع', home:'الرئيسية', loading_unis:'جارٍ تحميل الجامعات...', uploading:'جارٍ رفع المستند...', processing:'جارٍ تجهيز ملف PDF...', submitting:'جارٍ إرسال الطلب...', loading:'جارٍ التحميل...',
+ search_unis:'ابحث عن جامعة أو برنامج', all:'الكل', intake:'موعد القبول', programs:'البرامج', tuition:'الرسوم الدراسية', requirements:'شروط القبول', recognition:'الاعتراف', overview:'نظرة عامة', location:'الموقع',
+ view_details:'عرض التفاصيل', apply_uni:'قدّم إلى هذه الجامعة', back_unis:'العودة إلى الجامعات', programs_count:'{n} برامج', no_unis:'لا توجد جامعات.', required_docs:'المستندات المطلوبة', duration:'المدة', teaching_lang:'لغة الدراسة', apply_short:'قدّم',
+ lvl_bachelor:'بكالوريوس', lvl_master:'ماجستير', lvl_phd:'دكتوراه', lvl_medical:'الطب', lvl_other:'أخرى',
+ step_personal:'المعلومات الشخصية', step_education:'التعليم', step_program:'الجامعة والبرنامج', step_docs:'المستندات', step_review:'المراجعة', step_of:'الخطوة {n} من {t}',
+ f_first:'الاسم الأول', f_name:'الاسم الكامل', f_last:'اسم العائلة', f_dob:'تاريخ الميلاد', f_gender:'الجنس', male:'ذكر', female:'أنثى', f_nationality:'الجنسية', f_residence:'بلد الإقامة', f_phone:'رقم الهاتف (واتساب)', f_tg:'اسم المستخدم في تيليجرام', f_email:'البريد الإلكتروني', optional:'(اختياري)', select:'اختر...',
+ f_edu_level:'أعلى مؤهل دراسي', edu_highschool:'الثانوية', edu_bachelor:'بكالوريوس', edu_master:'ماجستير', edu_phd:'دكتوراه', edu_other:'أخرى',
+ f_prev_school:'الجامعة / المدرسة السابقة', f_edu_field:'التخصص', f_grad_year:'سنة التخرج', f_gpa:'المعدل / الدرجة', f_prev_degree:'اسم الشهادة السابقة', ph_prev_degree:'مثال: بكالوريوس هندسة مدنية',
+ f_country:'الدولة', f_university:'الجامعة', f_degree:'المرحلة الدراسية', f_program:'البرنامج', f_intake:'موعد القبول',
+ next:'متابعة', prev:'رجوع', err_required:'يرجى ملء هذا الحقل.', err_phone:'يرجى إدخال رقم هاتف صحيح.', err_email:'يرجى إدخال بريد إلكتروني صحيح.', err_year:'يرجى إدخال سنة صحيحة.', fix_fields:'يرجى إكمال الحقول المحددة.',
+ docs_hint:'ارفع صوراً أو ملفات PDF. تتحول الصور إلى PDF تلقائياً، والمستند متعدد الصفحات يصبح ملف PDF واحداً.',
+ doc_required:'مطلوب', doc_optional:'اختياري', not_uploaded:'لم يُرفع بعد', other_docs:'مستندات أخرى', doc_add_other:'إضافة مستند', take_photo:'التقاط صورة', choose_files:'اختيار ملفات',
+ pages_n:'{n} صفحات', page_1:'صفحة واحدة', save_doc:'حفظ المستند', replace:'استبدال', remove:'حذف', preview:'معاينة', upload:'رفع', confirm_remove:'هل تريد حذف هذا المستند؟', doc_label:'اسم المستند',
+ missing_required:'المستندات المطلوبة التالية غير مرفوعة: {list}. يمكنك المتابعة الآن ورفعها لاحقاً من صفحة طلبي.', upload_now:'ارفعها الآن', continue_anyway:'متابعة على أي حال',
+ review_title:'راجع طلبك', edit_info:'تعديل المعلومات', edit_docs:'تعديل المستندات', submit:'إرسال الطلب', no_docs:'لم يتم رفع أي مستند',
+ done_title:'تم إرسال الطلب', done_text:'شكراً لك. تم إرسال طلبك بنجاح.', app_id:'رقم الطلب', status:'الحالة', done_contact:'سيقوم فريق القبول بمراجعة طلبك والتواصل معك عبر تيليجرام أو وسائل الاتصال التي أدخلتها.', return_home:'العودة إلى الرئيسية', view_app:'عرض طلبي',
+ st_under_review:'قيد المراجعة', st_accepted:'مقبول', st_rejected:'مرفوض', st_more_docs:'مطلوب مستندات إضافية',
+ my_title:'طلبي', my_apps:'طلباتي', my_empty:'لم تقدّم أي طلب بعد.', submitted_on:'تاريخ التقديم', documents:'المستندات', missing:'المستندات الناقصة', messages:'رسائل من قسم القبول', upload_extra:'رفع مستند إضافي', no_messages:'لا توجد رسائل بعد.', refresh:'تحديث',
+ resume_title:'لديك طلب غير مكتمل.', resume_text:'أكمل من حيث توقفت، أو ابدأ طلباً جديداً.', continue_app:'متابعة الطلب', start_new:'بدء طلب جديد', saved:'✓ تم الحفظ',
+ about_text:'مؤسسة ICA للاستشارات تساعد الطلاب الدوليين على اختيار الجامعة المناسبة في إيران، وتتابع معهم جميع الخطوات: التقديم والقبول والتأشيرة والإقامة الدراسية.',
+ contact_text:'فريقنا جاهز للإجابة عن أسئلتك.', c_telegram:'تيليجرام', c_whatsapp:'واتساب', c_email:'البريد الإلكتروني', c_phone:'الهاتف',
+ e_generic:'حدث خطأ ما. يرجى المحاولة مرة أخرى.', e_process:'تعذّرت معالجة المستند. يرجى رفعه مرة أخرى.', e_size:'حجم الملف كبير جداً (الحد الأقصى {n} ميغابايت).', e_format:'الملفات المدعومة فقط: PDF وJPG وJPEG وPNG.', e_submit:'تعذّر إرسال طلبك. لم تُفقد معلوماتك.', e_auth:'يرجى فتح التطبيق من بوت تيليجرام الخاص بنا.', e_network:'لا يوجد اتصال. يرجى التحقق من الإنترنت والمحاولة مرة أخرى.', e_load:'تعذّر تحميل أحدث المعلومات.', retry:'إعادة المحاولة',
+ choose_lang:'اختر اللغة', close:'إغلاق', cancel:'إلغاء', yes_remove:'حذف', applying_to:'التقديم إلى', which_doc:'ما نوع هذا المستند؟', demo:'وضع تجريبي — الخادم غير متصل بعد.',
+ doc_passport:'جواز السفر', doc_photo:'صورة شخصية', doc_highschool:'شهادة الثانوية', doc_bachelor:'شهادة البكالوريوس', doc_master:'شهادة الماجستير', doc_transcript:'كشف الدرجات', doc_cv:'السيرة الذاتية', doc_language:'شهادة اللغة', doc_other:'مستند آخر'
+},
+ckb:{ _name:'کوردی', _dir:'rtl',
+ brand:'ICA وەرگرتن', tagline:'وەرگرتنی خوێندکارانی نێودەوڵەتی', hero_t1:'لە ئێران بخوێنە،', hero_t2:'لێرەوە دەست پێ بکە.',
+ hero_desc:'زانکۆ و بەرنامە و دەرفەتەکانی وەرگرتن ببینە، یان داواکارییەکەت بە ئۆنلاین پێشکەش بکە.',
+ explore:'گەڕان لە زانکۆکان', explore_sub:'بەرنامە، کرێ و مەرجەکان', apply_now:'ئێستا پێشکەش بکە', apply_sub:'نزیکەی ١٠ خولەک دەخایەنێت',
+ nav_home:'سەرەکی', nav_unis:'زانکۆکان', nav_apply:'پێشکەشکردن', nav_my:'داواکارییەکەم', about:'دەربارەی ئێمە', contact:'پەیوەندی', language:'زمان',
+ why_t:'بۆچی لە ڕێگەی ICA پێشکەش بکەیت', why1_b:'خزمەتگوزاری تەواو', why1:'لە پێشکەشکردنەوە تا نامەی وەرگرتن.', why2_b:'ڤیزا و مۆڵەتی نیشتەجێبوون', why2:'هەموو کارە فەرمییەکان بۆت دەکەین.', why3_b:'هەموو شتێک لە تێلێگرام ببینە', why3:'نوێکاری دۆخ و نامەکانی تیمەکەمان.',
+ back:'گەڕانەوە', home:'سەرەکی', loading_unis:'زانکۆکان بار دەکرێن...', uploading:'بەڵگەنامە بار دەکرێت...', processing:'PDF ئامادە دەکرێت...', submitting:'داواکاری دەنێردرێت...', loading:'چاوەڕێ بکە...',
+ search_unis:'گەڕان بۆ زانکۆ یان بەرنامە', all:'هەموو', intake:'کاتی وەرگرتن', programs:'بەرنامەکان', tuition:'کرێی خوێندن', requirements:'مەرجەکانی وەرگرتن', recognition:'دانپێدانان', overview:'پوختە', location:'شوێن',
+ view_details:'بینینی وردەکاری', apply_uni:'پێشکەشکردن بۆ ئەم زانکۆیە', back_unis:'گەڕانەوە بۆ زانکۆکان', programs_count:'{n} بەرنامە', no_unis:'هیچ زانکۆیەک نەدۆزرایەوە.', required_docs:'بەڵگەنامە پێویستەکان', duration:'ماوە', teaching_lang:'زمانی خوێندن', apply_short:'پێشکەشکردن',
+ lvl_bachelor:'بەکالۆریۆس', lvl_master:'ماستەر', lvl_phd:'دکتۆرا', lvl_medical:'پزیشکی', lvl_other:'هی تر',
+ step_personal:'زانیاری کەسی', step_education:'خوێندن', step_program:'زانکۆ و بەرنامە', step_docs:'بەڵگەنامەکان', step_review:'پێداچوونەوە', step_of:'هەنگاوی {n} لە {t}',
+ f_first:'ناوی یەکەم', f_name:'ناوی تەواو', f_last:'ناوی کۆتایی', f_dob:'بەرواری لەدایکبوون', f_gender:'ڕەگەز', male:'نێر', female:'مێ', f_nationality:'ڕەگەزنامە', f_residence:'وڵاتی نیشتەجێبوون', f_phone:'ژمارەی مۆبایل (واتسئاپ)', f_tg:'ناوی بەکارهێنەری تێلێگرام', f_email:'ئیمەیڵ', optional:'(ئارەزوومەندانە)', select:'هەڵبژێرە...',
+ f_edu_level:'بەرزترین ئاستی خوێندن', edu_highschool:'ئامادەیی', edu_bachelor:'بەکالۆریۆس', edu_master:'ماستەر', edu_phd:'دکتۆرا', edu_other:'هی تر',
+ f_prev_school:'زانکۆ / قوتابخانەی پێشوو', f_edu_field:'بەشی خوێندن', f_grad_year:'ساڵی دەرچوون', f_gpa:'نمرە / تێکڕا', f_prev_degree:'ناوی بڕوانامەی پێشوو', ph_prev_degree:'نموونە: بەکالۆریۆسی ئەندازیاری شارستانی',
+ f_country:'وڵات', f_university:'زانکۆ', f_degree:'ئاستی خوێندن', f_program:'بەرنامە', f_intake:'کاتی وەرگرتن',
+ next:'بەردەوامبوون', prev:'گەڕانەوە', err_required:'تکایە ئەم خانەیە پڕ بکەرەوە.', err_phone:'تکایە ژمارەیەکی دروست بنووسە.', err_email:'تکایە ئیمەیڵێکی دروست بنووسە.', err_year:'تکایە ساڵێکی دروست بنووسە.', fix_fields:'تکایە خانە دیاریکراوەکان تەواو بکە.',
+ docs_hint:'وێنە یان PDF بار بکە. وێنەکان خۆکارانە دەبنە PDF، و بەڵگەنامەی چەند پەڕەیی دەبێتە یەک PDF.',
+ doc_required:'پێویستە', doc_optional:'ئارەزوومەندانە', not_uploaded:'هێشتا بار نەکراوە', other_docs:'بەڵگەنامەکانی تر', doc_add_other:'زیادکردنی بەڵگەنامە', take_photo:'وێنەگرتن', choose_files:'هەڵبژاردنی فایل',
+ pages_n:'{n} پەڕە', page_1:'١ پەڕە', save_doc:'پاشەکەوتکردن', replace:'گۆڕین', remove:'سڕینەوە', preview:'بینین', upload:'بارکردن', confirm_remove:'ئەم بەڵگەنامەیە بسڕدرێتەوە؟', doc_label:'ناوی بەڵگەنامە',
+ missing_required:'ئەم بەڵگەنامە پێویستانە بار نەکراون: {list}. دەتوانیت ئێستا بەردەوام بیت و دواتر لە داواکارییەکەم باریان بکەیت.', upload_now:'ئێستا بار بکە', continue_anyway:'هەر بەردەوام بە',
+ review_title:'پێداچوونەوە بە داواکارییەکەت', edit_info:'دەستکاری زانیاری', edit_docs:'دەستکاری بەڵگەنامەکان', submit:'ناردنی داواکاری', no_docs:'هیچ بەڵگەنامەیەک بار نەکراوە',
+ done_title:'داواکارییەکەت نێردرا', done_text:'سوپاس. داواکارییەکەت بە سەرکەوتوویی نێردرا.', app_id:'ژمارەی داواکاری', status:'دۆخ', done_contact:'تیمی وەرگرتن پێداچوونەوە بە داواکارییەکەتدا دەکات و لە ڕێگەی تێلێگرام یان زانیارییەکانی پەیوەندیتەوە پەیوەندیت پێوە دەکات.', return_home:'گەڕانەوە بۆ سەرەکی', view_app:'بینینی داواکارییەکەم',
+ st_under_review:'لە ژێر پێداچوونەوەدایە', st_accepted:'وەرگیرا', st_rejected:'ڕەتکرایەوە', st_more_docs:'بەڵگەنامەی زیاتر پێویستە',
+ my_title:'داواکارییەکەم', my_apps:'داواکارییەکانم', my_empty:'هێشتا هیچ داواکارییەکت نەناردووە.', submitted_on:'بەرواری ناردن', documents:'بەڵگەنامەکان', missing:'بەڵگەنامە کەمەکان', messages:'نامەکانی بەشی وەرگرتن', upload_extra:'بارکردنی بەڵگەنامەی زیادە', no_messages:'هێشتا هیچ نامەیەک نییە.', refresh:'نوێکردنەوە',
+ resume_title:'داواکارییەکی تەواونەکراوت هەیە.', resume_text:'لەو شوێنەوە بەردەوام بە کە وەستایت، یان داواکارییەکی نوێ دەست پێ بکە.', continue_app:'بەردەوامبوون لە داواکاری', start_new:'دەستپێکردنی داواکاری نوێ', saved:'✓ پاشەکەوت کرا',
+ about_text:'ICA یارمەتی خوێندکارانی نێودەوڵەتی دەدات بۆ هەڵبژاردنی زانکۆی گونجاو لە ئێران، و هەموو هەنگاوەکان بۆیان بەڕێوە دەبات: پێشکەشکردن، وەرگرتن، ڤیزا و مۆڵەتی نیشتەجێبوونی خوێندن.',
+ contact_text:'تیمەکەمان ئامادەیە وەڵامی پرسیارەکانت بداتەوە.', c_telegram:'تێلێگرام', c_whatsapp:'واتسئاپ', c_email:'ئیمەیڵ', c_phone:'تەلەفۆن',
+ e_generic:'هەڵەیەک ڕوویدا. تکایە دووبارە هەوڵ بدەرەوە.', e_process:'بەڵگەنامەکەت ئامادە نەکرا. تکایە دووبارە باری بکەرەوە.', e_size:'قەبارەی فایلەکە زۆر گەورەیە (زۆرترین {n} مێگابایت).', e_format:'تەنها فایلی PDF و JPG و JPEG و PNG پشتگیری دەکرێن.', e_submit:'داواکارییەکەت نەنێردرا. زانیارییەکانت ون نەبوون.', e_auth:'تکایە ئەم بەرنامەیە لە بۆتی تێلێگرامی ئێمەوە بکەرەوە.', e_network:'پەیوەندی ئینتەرنێت نییە. تکایە دووبارە هەوڵ بدەرەوە.', e_load:'نوێترین زانیاری بار نەکرا.', retry:'دووبارە هەوڵدانەوە',
+ choose_lang:'زمان هەڵبژێرە', close:'داخستن', cancel:'هەڵوەشاندنەوە', yes_remove:'سڕینەوە', applying_to:'پێشکەشکردن بۆ', which_doc:'ئەمە چ بەڵگەنامەیەکە؟', demo:'دۆخی تاقیکردنەوە — ڕاژەکار هێشتا نەبەستراوە.',
+ doc_passport:'پاسپۆرت', doc_photo:'وێنەی کەسی', doc_highschool:'بڕوانامەی ئامادەیی', doc_bachelor:'بڕوانامەی بەکالۆریۆس', doc_master:'بڕوانامەی ماستەر', doc_transcript:'کەشفی نمرە', doc_cv:'سیڤی', doc_language:'بڕوانامەی زمان', doc_other:'بەڵگەنامەی تر'
+}};
+
+/* =================== DEMO data (used only until API_URL is set) =================== */
+const DEMO = {
+  universities:[
+    {id:'uut',name:'Urmia University of Technology',country:'Iran',city:'Urmia',logo:'',intakes:['September'],recognition:'EXAMPLE — recognition text from the sheet',tuition:'EXAMPLE — from $1,500 / year',requirements:'EXAMPLE — high school or bachelor certificate, passport valid for at least 1 year',desc:{en:'EXAMPLE — the real description will come from your Universities sheet.'}},
+    {id:'example-med',name:'Example University of Medical Sciences',country:'Iran',city:'Tabriz',logo:'',intakes:['September','February'],recognition:'EXAMPLE — WHO / WDOMS listed',tuition:'EXAMPLE — from $4,000 / year',requirements:'EXAMPLE — high school with biology and chemistry',desc:{en:'EXAMPLE — medical programs taught in English.'}}
+  ],
+  programs:[
+    {id:'uut-bsc-civil',uni:'uut',level:'Bachelor',name:'BSc Civil Engineering',duration:'4 years',language:'Persian',tuition:'EXAMPLE',intakes:['September'],docs:['passport','photo','highschool','transcript']},
+    {id:'uut-msc-cs',uni:'uut',level:'Master',name:'MSc Computer Engineering',duration:'2 years',language:'English',tuition:'EXAMPLE',intakes:['September'],docs:['passport','photo','bachelor','transcript','cv']},
+    {id:'uut-phd-chem',uni:'uut',level:'PhD',name:'PhD Chemical Engineering',duration:'4 years',language:'English',tuition:'EXAMPLE',intakes:['September'],docs:['passport','photo','bachelor','master','transcript','cv']},
+    {id:'med-mbbs',uni:'example-med',level:'Medical',name:'MBBS / Medicine',duration:'6 years',language:'English',tuition:'EXAMPLE',intakes:['September','February'],docs:['passport','photo','highschool','transcript']}
+  ]
+};
+
+/* =================== state & helpers =================== */
+const tg = window.Telegram && window.Telegram.WebApp;
+const IS_DEMO = !/^https:\/\/script\.google(usercontent)?\.com\//.test(CONFIG.API_URL);
+const tgUser = (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) || {};
+const S = {
+  lang:'en', cfg:{universities:[],programs:[]}, apps:[], draftDocs:[], loaded:false, loadError:'',
+  draft:{step:1, form:{}, started:false}, stack:[{v:'home'}], errors:{}, country:'', q:'',
+  sheet:null, pdfCache:{}, resumeShown:false, demoApps:[]
+};
+const $ = s => document.querySelector(s);
+const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+function t(k, v){ let s = (I18N[S.lang] && I18N[S.lang][k]); if (s == null) s = I18N.en[k]; if (s == null) s = k; if (v) s = s.replace(/\{(\w+)\}/g, (m, x) => v[x] != null ? v[x] : m); return s; }
+function digits(s){ return String(s).replace(/[٠-٩]/g, d => '٠١٢٣٤٥٦٧٨٩'.indexOf(d)).replace(/[۰-۹]/g, d => '۰۱۲۳۴۵۶۷۸۹'.indexOf(d)); }
+function lvlKey(l){ l = String(l || '').toLowerCase(); if (/^(bach|bsc|ba\b|b\.)/.test(l)) return 'bachelor'; if (/^(mast|msc|ma\b|m\.)/.test(l)) return 'master'; if (/^(phd|doct)/.test(l)) return 'phd'; if (/^med|mbbs|md\b|dent|pharm/.test(l)) return 'medical'; return 'other'; }
+function uniById(id){ return S.cfg.universities.find(u => u.id === id); }
+function progById(id){ return S.cfg.programs.find(p => p.id === id); }
+function descOf(u){ return (u.desc && (u.desc[S.lang] || u.desc.en)) || ''; }
+function trDoc(m){ const k = DOC_TYPES.find(x => I18N.en['doc_' + x] === m); return k ? t('doc_' + k) : m; }
+function docName(d){ return d.type === 'other' && d.label ? d.label : t('doc_' + d.type); }
+function pagesTxt(n){ n = Number(n) || 1; return n === 1 ? t('page_1') : t('pages_n', {n}); }
+function initials(n){ return String(n || '?').split(/\s+/).filter(w => /^[A-Z]/.test(w)).slice(0, 3).map(w => w[0]).join('') || String(n || '?').slice(0, 2); }
+function logoHTML(u){ return `<div class="uni-logo">${u.logo ? `<img src="${esc(u.logo)}" alt="" onerror="this.replaceWith(document.createTextNode('${esc(initials(u.name))}'))">` : esc(initials(u.name))}</div>`; }
+function haptic(k){ try { tg && tg.HapticFeedback && (k === 'ok' ? tg.HapticFeedback.notificationOccurred('success') : k === 'bad' ? tg.HapticFeedback.notificationOccurred('error') : tg.HapticFeedback.impactOccurred('light')); } catch(e){} }
+function studentName(){ const f = S.draft.form; return ((f.first_name || '') + '_' + (f.last_name || '')).replace(/^_|_$/g, '') || tgUser.first_name || 'Student'; }
+function requiredDocs(){ const p = progById(S.draft.form.program); return (p && p.docs && p.docs.length ? p.docs : CONFIG.DEFAULT_DOCS).filter(d => DOC_TYPES.includes(d)); }
+
+/* storage: Telegram CloudStorage (syncs across devices) + localStorage fallback */
+const ls = { get:k => { try { return localStorage.getItem(k); } catch(e){ return null; } }, set:(k,v) => { try { localStorage.setItem(k, v); } catch(e){} }, del:k => { try { localStorage.removeItem(k); } catch(e){} } };
+const cloudOK = () => { try { return !!(tg && tg.CloudStorage && tg.isVersionAtLeast && tg.isVersionAtLeast('6.9')); } catch(e){ return false; } };
+const store = {
+  get(k){ return new Promise(res => { if (!cloudOK()) return res(ls.get(k)); let done = false; const fin = v => { if (!done){ done = true; res(v); } }; setTimeout(() => fin(ls.get(k)), 1500); try { tg.CloudStorage.getItem(k, (e, v) => fin(!e && v ? v : ls.get(k))); } catch(e){ fin(ls.get(k)); } }); },
+  set(k, v){ ls.set(k, v); if (cloudOK()) try { tg.CloudStorage.setItem(k, v, () => {}); } catch(e){} },
+  del(k){ ls.del(k); if (cloudOK()) try { tg.CloudStorage.removeItem(k, () => {}); } catch(e){} }
+};
+let saveT; function saveDraft(){ clearTimeout(saveT); saveT = setTimeout(() => { store.set('ica_draft', JSON.stringify(S.draft)); const s = $('#saved'); if (s){ s.classList.add('show'); setTimeout(() => s.classList.remove('show'), 1200); } }, 500); }
+
+/* =================== API =================== */
+class AppError extends Error { constructor(key, data){ super(key); this.key = key; this.data = data; } }
+const ERR = { auth:'e_auth', size:'e_size', format:'e_format', type:'e_format' };
+async function api(action, data){
+  if (IS_DEMO) return demoApi(action, data || {});
+  if (!tg || !tg.initData) throw new AppError('e_auth');
+  let res, j;
+  try { res = await fetch(CONFIG.API_URL, { method:'POST', body: JSON.stringify(Object.assign({ action, initData: tg.initData }, data || {})) }); }
+  catch(e){ throw new AppError('e_network'); }
+  try { j = await res.json(); } catch(e){ throw new AppError('e_generic'); }
+  if (!j.ok) throw new AppError(ERR[j.error] || 'e_generic', j);
+  return j;
+}
+async function demoApi(action, d){
+  await sleep(450);
+  if (action === 'init') return { ok:true, universities:DEMO.universities, programs:DEMO.programs, applications:S.demoApps, draftDocs:S.draftDocs };
+  if (action === 'uploadDoc'){
+    const doc = { id:'D' + Date.now(), type:d.type, label:d.label, name:(d.appId ? d.appId + '_' : '') + d.name + '_' + (d.label || t('doc_' + d.type)).replace(/\W+/g, '_') + '.pdf', pages:d.pages, sizeKb:Math.round(d.data.length * .75 / 1024) };
+    if (d.appId){ const a = S.demoApps.find(x => x.id === d.appId); a.documents.push(doc); a.missing = a.missing.filter(m => m !== d.forItem); return { ok:true, doc, applications:S.demoApps }; }
+    return { ok:true, doc };
+  }
+  if (action === 'submit'){
+    const f = d.form, u = uniById(f.university), p = progById(f.program), id = 'ICA-' + new Date().getFullYear() + '-' + String(S.demoApps.length + 1).padStart(6, '0');
+    const have = S.draftDocs.map(x => x.type);
+    S.demoApps.unshift({ id, submitted:new Date().toISOString().slice(0,10), status:'under_review', university:u.name, program:p.name, degree:p.level, intake:f.intake, documents:S.draftDocs.slice(), missing:(p.docs || []).filter(x => !have.includes(x)).map(x => I18N.en['doc_' + x]), messages:[] });
+    return { ok:true, appId:id, applications:S.demoApps };
+  }
+  if (action === 'getDoc') throw new AppError('e_generic');
+  return { ok:true };
+}
+async function loadData(silent){
+  try {
+    const r = await api('init');
+    S.cfg = { universities:r.universities || [], programs:r.programs || [] };
+    S.apps = r.applications || []; S.draftDocs = r.draftDocs || []; S.loaded = true; S.loadError = '';
+  } catch(e){ S.loadError = e.key || 'e_load'; if (!silent) toast(t(S.loadError), 'bad'); }
+  render();
+}
+
+/* =================== navigation =================== */
+const cur = () => S.stack[S.stack.length - 1];
+function go(v, p){ S.stack.push(Object.assign({ v }, p || {})); S.errors = {}; render(true); haptic(); }
+function resetTo(v, p){ S.stack = [{ v:'home' }]; if (v !== 'home') S.stack.push(Object.assign({ v }, p || {})); S.errors = {}; render(true); haptic(); }
+function back(){
+  if ($('#modal').classList.contains('open')) return closeModal(null);
+  if (S.sheet) return closeSheet();
+  if ($('#preview').classList.contains('open')) return closePreview();
+  const c = cur();
+  if (c.v === 'apply' && S.draft.step > 1){ S.draft.step--; S.errors = {}; saveDraft(); return render(true); }
+  if (c.v === 'done'){ return resetTo('home'); }
+  if (S.stack.length > 1){ S.stack.pop(); render(true); } 
+}
+function syncTelegramChrome(){
+  if (!tg) return;
+  try {
+    const showBack = S.stack.length > 1 || !!S.sheet;
+    if (tg.BackButton){ showBack ? tg.BackButton.show() : tg.BackButton.hide(); }
+    if (tg.isVersionAtLeast && tg.isVersionAtLeast('6.2')){ (cur().v === 'apply' && S.draft.started) ? tg.enableClosingConfirmation() : tg.disableClosingConfirmation(); }
+  } catch(e){}
+}
+
+/* =================== rendering =================== */
+const TITLES = { unis:'nav_unis', uni:'overview', apply:'nav_apply', my:'my_title', myapp:'my_title', about:'about', contact:'contact', done:'done_title' };
+function render(scroll){
+  const c = cur();
+  document.documentElement.lang = S.lang; document.documentElement.dir = t('_dir');
+  const top = $('#topbar');
+  if (c.v === 'home'){ top.hidden = true; }
+  else {
+    top.hidden = false;
+    let title = t(TITLES[c.v] || 'brand');
+    if (c.v === 'uni'){ const u = uniById(c.id); if (u) title = u.name; }
+    top.innerHTML = `<div class="wrap"><button class="icon-btn" data-act="back" aria-label="${t('back')}"><span class="flip">←</span></button><h2>${esc(title)}</h2><button class="icon-btn" data-act="tab" data-v="home" aria-label="${t('home')}">🏠</button></div>`;
+  }
+  const V = { home:vHome, unis:vUnis, uni:vUni, apply:vApply, done:vDone, my:vMy, myapp:vMyApp, about:vAbout, contact:vContact }[c.v] || vHome;
+  $('#view').innerHTML = V(c);
+  $('#bottom').innerHTML = bottomBar(c);
+  if (scroll){ window.scrollTo(0, 0); $('#toast').className = 'toast'; }
+  syncTelegramChrome();
+}
+function bottomBar(c){
+  if (c.v === 'apply'){
+    const s = S.draft.step;
+    return `<div class="actionbar"><div class="wrap"><button class="btn btn-ghost" data-act="back">${t('prev')}</button>${s < 5 ? `<button class="btn btn-navy" data-act="next">${t('next')} <span class="flip">→</span></button>` : `<button class="btn btn-gold" data-act="submit">🚀 ${t('submit')}</button>`}</div></div>`;
+  }
+  if (c.v === 'uni'){
+    return `<div class="sticky-cta"><div class="wrap"><button class="btn btn-gold" data-act="applyUni" data-id="${esc(c.id)}">📝 ${t('apply_uni')}</button></div></div>`;
+  }
+  const tab = { home:'home', unis:'unis', uni:'unis', my:'my', myapp:'my', done:'my' }[c.v] || '';
+  const it = (v, ic, k) => `<button class="${tab === v ? 'on' : ''}" data-act="${v === 'apply' ? 'openApply' : 'tab'}" data-v="${v}"><span>${ic}</span>${t(k)}</button>`;
+  return `<nav class="bnav"><div class="wrap">${it('home','🏠','nav_home')}${it('unis','🎓','nav_unis')}${it('apply','📝','nav_apply')}${it('my','👤','nav_my')}</div></nav>`;
+}
+
+/* ---------- home ---------- */
+function vHome(){
+  const unfinished = S.draft.started;
+  return `
+  <section class="hero"><div class="wrap">
+    <div class="hero-top">
+      <div class="brand"><div class="logo-mark"><img src="${esc(CONFIG.LOGO)}" alt="" onerror="this.replaceWith(document.createTextNode('ICA'))"></div><div><b>${t('brand')}</b><small>${t('tagline')}</small></div></div>
+      <button class="lang-pill" data-act="lang">🌐 ${t('_name')}</button>
+    </div>
+    <h1>${t('hero_t1')} <span>${t('hero_t2')}</span></h1>
+    <p class="lead">${t('hero_desc')}</p>
+    <div class="hero-cta">
+      <button class="big-btn gold" data-act="tab" data-v="unis"><span class="ico">🎓</span><span>${t('explore')}<small>${t('explore_sub')}</small></span><span class="arrow flip">→</span></button>
+      <button class="big-btn glass" data-act="openApply"><span class="ico">📝</span><span>${t('apply_now')}<small>${t('apply_sub')}</small></span><span class="arrow flip">→</span></button>
+    </div>
+  </div></section>
+  <div class="wrap">
+    <div class="quick">
+      <button data-act="tab" data-v="unis"><span>📚</span>${t('nav_unis')}</button>
+      <button data-act="tab" data-v="my"><span>👤</span>${t('nav_my')}</button>
+      <button data-act="go" data-v="about"><span>ℹ️</span>${t('about')}</button>
+      <button data-act="go" data-v="contact"><span>📞</span>${t('contact')}</button>
+    </div>
+    ${IS_DEMO ? `<div class="banner info"><span>🧪</span><p>${t('demo')}</p></div>` : ''}
+    ${!IS_DEMO && (!tg || !tg.initData) ? `<div class="banner"><span>⚠️</span><p>${t('e_auth')}</p></div>` : ''}
+    ${unfinished ? `<div class="banner info"><span>📝</span><p>${t('resume_title')}</p><button class="btn btn-navy btn-sm" data-act="openApply">${t('continue_app')}</button></div>` : ''}
+    <div class="section"><div class="section-h"><h3>${t('why_t')}</h3></div>
+      <div class="card trust">
+        <div class="row"><span>🧭</span><p><b>${t('why1_b')}</b>${t('why1')}</p></div>
+        <div class="row"><span>🛂</span><p><b>${t('why2_b')}</b>${t('why2')}</p></div>
+        <div class="row"><span>💬</span><p><b>${t('why3_b')}</b>${t('why3')}</p></div>
+      </div>
+    </div>
+  </div>`;
+}
+
+/* ---------- universities ---------- */
+function vUnis(){
+  const wrap = h => `<div class="wrap">${h}</div>`;
+  if (!S.loaded && !S.loadError) return wrap(`<p class="step-meta" style="margin:16px 0 10px">${t('loading_unis')}</p><div class="skel"></div><div class="skel"></div>`);
+  if (!S.loaded) return wrap(errBox());
+  const countries = [...new Set(S.cfg.universities.map(u => u.country).filter(Boolean))];
+  return wrap(`
+    <div class="search"><span>🔍</span><input id="uniSearch" type="search" value="${esc(S.q)}" placeholder="${t('search_unis')}"></div>
+    ${countries.length > 1 ? `<div class="chips"><button class="chip ${!S.country ? 'on' : ''}" data-act="country" data-c="">${t('all')}</button>${countries.map(c => `<button class="chip ${S.country === c ? 'on' : ''}" data-act="country" data-c="${esc(c)}">${esc(c)}</button>`).join('')}</div>` : ''}
+    <div id="uniList">${uniListHTML()}</div>`);
+}
+function uniListHTML(){
+  const q = S.q.trim().toLowerCase();
+  const list = S.cfg.universities.filter(u => (!S.country || u.country === S.country) && (!q || [u.name, u.city, u.country].concat(S.cfg.programs.filter(p => p.uni === u.id).map(p => p.name)).join(' ').toLowerCase().includes(q)));
+  return list.length ? list.map(uniCard).join('') : `<div class="empty"><div class="e">🔎</div>${t('no_unis')}</div>`;
+}
+function uniCard(u, i){
+  const progs = S.cfg.programs.filter(p => p.uni === u.id);
+  const lv = [...new Set(progs.map(p => lvlKey(p.level)))].sort((a, b) => LEVELS.indexOf(a) - LEVELS.indexOf(b)).map(l => t('lvl_' + l)).join(' · ');
+  return `<article class="uni-card" style="animation-delay:${(i || 0) * 50}ms">
+    <div class="uni-head">${logoHTML(u)}<div><h3>🏛 ${esc(u.name)}</h3><p>📍 ${esc([u.city, u.country].filter(Boolean).join(', '))}</p></div></div>
+    <div class="uni-body">
+      ${descOf(u) ? `<p class="desc">${esc(descOf(u))}</p>` : ''}
+      <div class="facts">
+        ${u.intakes.length ? `<div class="fact"><span class="k">📅</span><div><b>${t('intake')}</b><span>${esc(u.intakes.join(' · '))}</span></div></div>` : ''}
+        <div class="fact"><span class="k">🎓</span><div><b>${t('programs_count', {n:progs.length})}</b><span>${esc(lv || '—')}</span></div></div>
+        ${u.tuition ? `<div class="fact"><span class="k">💰</span><div><b>${t('tuition')}</b><span>${esc(u.tuition)}</span></div></div>` : ''}
+        ${u.requirements ? `<div class="fact"><span class="k">📋</span><div><b>${t('requirements')}</b><span>${esc(u.requirements)}</span></div></div>` : ''}
+        ${u.recognition ? `<div class="fact"><span class="k">🏅</span><div><b>${t('recognition')}</b><span>${esc(u.recognition)}</span></div></div>` : ''}
+      </div>
+    </div>
+    <div class="uni-foot"><button class="btn btn-navy" data-act="uni" data-id="${esc(u.id)}">${t('view_details')} <span class="flip">→</span></button></div>
+  </article>`;
+}
+function vUni(c){
+  const u = uniById(c.id);
+  if (!u) return `<div class="wrap">${S.loaded ? `<div class="empty"><div class="e">🔎</div>${t('no_unis')}</div>` : `<div class="skel" style="margin-top:14px"></div>`}</div>`;
+  const progs = S.cfg.programs.filter(p => p.uni === u.id);
+  const byLv = LEVELS.map(l => [l, progs.filter(p => lvlKey(p.level) === l)]).filter(x => x[1].length);
+  const docs = [...new Set(progs.flatMap(p => p.docs && p.docs.length ? p.docs : CONFIG.DEFAULT_DOCS))];
+  const sec = (ic, k, body) => body ? `<section class="card d-sec"><h3>${ic} ${t(k)}</h3>${body}</section>` : '';
+  return `<div class="wrap" style="padding-bottom:70px">
+    <div class="d-hero">${logoHTML(u)}<h1>${esc(u.name)}</h1><p>📍 ${esc([u.city, u.country].filter(Boolean).join(', '))}</p>
+      <div class="chips" style="margin-top:12px">${u.intakes.map(i => `<span class="tag">📅 ${esc(i)}</span>`).join('')}<span class="tag">🎓 ${t('programs_count', {n:progs.length})}</span></div></div>
+    ${sec('🏛', 'overview', descOf(u) ? `<p class="txt">${esc(descOf(u))}</p>` : '')}
+    ${sec('🎓', 'programs', byLv.map(([l, ps]) => `<div class="lvl-h">${t('lvl_' + l)}</div>` + ps.map(p => `<button class="prog" data-act="applyUni" data-id="${esc(u.id)}" data-p="${esc(p.id)}"><div class="pi"><b>${esc(p.name)}</b><small>${esc([p.duration, p.language, (p.intakes || []).join(', ')].filter(Boolean).join(' · '))}</small>${p.tuition ? `<small>💰 ${esc(p.tuition)}</small>` : ''}</div><span class="go">${t('apply_short')} <span class="flip">→</span></span></button>`).join('')).join('') || '—')}
+    ${sec('💰', 'tuition', u.tuition ? `<p class="txt">${esc(u.tuition)}</p>` : '')}
+    ${sec('📋', 'requirements', (u.requirements ? `<p class="txt">${esc(u.requirements)}</p>` : '') + (docs.length ? `<p class="lvl-h">${t('required_docs')}</p><div class="chips" style="flex-wrap:wrap">${docs.map(d => `<span class="tag">${DOC_ICON[d]} ${t('doc_' + d)}</span>`).join('')}</div>` : ''))}
+    ${sec('📅', 'intake', u.intakes.length ? `<div class="chips" style="flex-wrap:wrap">${u.intakes.map(i => `<span class="tag">${esc(i)}</span>`).join('')}</div>` : '')}
+    ${sec('🏅', 'recognition', u.recognition ? `<p class="txt">${esc(u.recognition)}</p>` : '')}
+    <div style="margin-top:14px"><button class="btn btn-ghost" data-act="back">← ${t('back_unis')}</button></div>
+  </div>`;
+}
+function errBox(){ return `<div class="empty"><div class="e">⚠️</div><p>${t(S.loadError || 'e_load')}</p><div style="margin-top:14px"><button class="btn btn-navy btn-sm" data-act="reload">${t('retry')}</button></div></div>`; }
+
+/* ---------- application ---------- */
+const STEPS = ['step_personal','step_education','step_program','step_docs','step_review'];
+const FIELDS = {
+  1:[ {k:'first_name',l:'f_first',req:1}, {k:'last_name',l:'f_last',req:1}, {k:'dob',l:'f_dob',type:'date',req:1}, {k:'gender',l:'f_gender',type:'select',opts:['male','female'],req:1},
+      {k:'nationality',l:'f_nationality',list:'countries',req:1}, {k:'residence',l:'f_residence',list:'countries',req:1}, {k:'phone',l:'f_phone',type:'tel',req:1,v:'phone'},
+      {k:'telegram',l:'f_tg'}, {k:'email',l:'f_email',type:'email',v:'email'} ],
+  2:[ {k:'edu_level',l:'f_edu_level',type:'select',opts:['highschool','bachelor','master','phd','other'],prefix:'edu_',req:1}, {k:'prev_school',l:'f_prev_school',req:1},
+      {k:'edu_field',l:'f_edu_field',req:1}, {k:'grad_year',l:'f_grad_year',type:'number',req:1,v:'year'}, {k:'gpa',l:'f_gpa',req:1}, {k:'prev_degree',l:'f_prev_degree',ph:'ph_prev_degree'} ]
+};
+function fieldHTML(f){
+  const v = S.draft.form[f.k] || '', er = S.errors[f.k];
+  const lab = t(f.l) + (f.req ? '' : ` <span class="opt">${t('optional')}</span>`);
+  const ctl = f.type === 'select'
+    ? `<select class="in" id="f_${f.k}" data-k="${f.k}"><option value="">${t('select')}</option>${f.opts.map(o => `<option value="${o}" ${v === o ? 'selected' : ''}>${t((f.prefix || '') + o)}</option>`).join('')}</select>`
+    : `<input class="in" id="f_${f.k}" data-k="${f.k}" type="${f.type === 'number' ? 'text' : (f.type || 'text')}" value="${esc(v)}" ${f.list ? `list="dl_${f.list}"` : ''} ${f.ph ? `placeholder="${esc(t(f.ph))}"` : ''} ${f.type === 'tel' ? 'inputmode="tel" dir="ltr" placeholder="+964 7xx xxx xxxx"' : ''} ${f.type === 'email' ? 'inputmode="email" dir="ltr"' : ''} ${f.type === 'number' ? 'inputmode="numeric" maxlength="4" dir="ltr"' : ''} ${f.k === 'telegram' ? 'dir="ltr"' : ''} autocomplete="off">`;
+  return `<label class="field ${er ? 'has-err' : ''}" for="f_${f.k}"><span class="lab">${lab}</span>${ctl}${er ? `<div class="err">${t(er)}</div>` : ''}</label>`;
+}
+function selectHTML(k, l, opts, disabled){
+  const v = S.draft.form[k] || '', er = S.errors[k];
+  return `<label class="field ${er ? 'has-err' : ''}"><span class="lab">${t(l)}</span><select class="in" data-k="${k}" ${disabled ? 'disabled' : ''}><option value="">${t('select')}</option>${opts.map(o => `<option value="${esc(o.v)}" ${v === o.v ? 'selected' : ''}>${esc(o.l)}</option>`).join('')}</select>${er ? `<div class="err">${t(er)}</div>` : ''}</label>`;
+}
+function resolveProgram(){
+  const f = S.draft.form, U = S.cfg.universities;
+  const countries = [...new Set(U.map(u => u.country).filter(Boolean))];
+  if (!f.country && countries.length === 1) f.country = countries[0];
+  const unis = U.filter(u => !f.country || u.country === f.country);
+  if (f.university && !unis.some(u => u.id === f.university)) f.university = '';
+  if (!f.university && unis.length === 1) f.university = unis[0].id;
+  const progs = S.cfg.programs.filter(p => p.uni === f.university);
+  const levels = [...new Set(progs.map(p => lvlKey(p.level)))].sort((a, b) => LEVELS.indexOf(a) - LEVELS.indexOf(b));
+  if (f.degree_level && !levels.includes(f.degree_level)) f.degree_level = '';
+  if (!f.degree_level && levels.length === 1) f.degree_level = levels[0];
+  const plist = progs.filter(p => lvlKey(p.level) === f.degree_level);
+  if (f.program && !plist.some(p => p.id === f.program)) f.program = '';
+  if (!f.program && plist.length === 1) f.program = plist[0].id;
+  const p = progById(f.program), u = uniById(f.university);
+  const intakes = p ? (p.intakes && p.intakes.length ? p.intakes : (u ? u.intakes : [])) : [];
+  if (f.intake && !intakes.includes(f.intake)) f.intake = '';
+  if (!f.intake && intakes.length === 1) f.intake = intakes[0];
+  return { countries, unis, levels, plist, intakes };
+}
+function vApply(){
+  const s = S.draft.step;
+  let body = '';
+  if (!S.loaded && (s === 3 || s >= 4)) body = S.loadError ? errBox() : `<div class="skel"></div>`;
+  else if (s === 1) body = FIELDS[1].slice(0, 2).map(fieldHTML).join('') + FIELDS[1].slice(2).map(fieldHTML).join('');
+  else if (s === 2) body = FIELDS[2].map(fieldHTML).join('');
+  else if (s === 3){
+    const r = resolveProgram(), f = S.draft.form, pre = uniById(S.draft.preUni);
+    body = (pre && f.university === pre.id ? `<div class="preset">🏛 <span>${t('applying_to')} <b>${esc(pre.name)}</b></span></div>` : '') +
+      selectHTML('country', 'f_country', r.countries.map(c => ({v:c, l:c}))) +
+      selectHTML('university', 'f_university', r.unis.map(u => ({v:u.id, l:u.name})), !f.country) +
+      selectHTML('degree_level', 'f_degree', r.levels.map(l => ({v:l, l:t('lvl_' + l)})), !f.university) +
+      selectHTML('program', 'f_program', r.plist.map(p => ({v:p.id, l:p.name})), !f.degree_level) +
+      selectHTML('intake', 'f_intake', r.intakes.map(i => ({v:i, l:i})), !f.program);
+  }
+  else if (s === 4) body = docsStep();
+  else body = reviewStep();
+  return `<div class="wrap">
+    <div class="progress">${STEPS.map((x, i) => `<i class="${i < s ? 'on' : ''}"></i>`).join('')}</div>
+    <div style="display:flex;justify-content:space-between;align-items:center"><span class="step-meta">${t('step_of', {n:s, t:5})}</span><span class="saved" id="saved">${t('saved')}</span></div>
+    <h2 class="step-title">${s === 5 ? t('review_title') : t(STEPS[s - 1])}</h2>
+    ${body}
+  </div>`;
+}
+function docRow(d, required){
+  if (!d) return '';
+  return `<div class="doc ok"><div class="di">✅</div><div class="dm"><b>${esc(docName(d))}</b><small>📄 ${esc(d.name)} · ${pagesTxt(d.pages)}${d.sizeKb ? ' · ' + d.sizeKb + ' KB' : ''}</small>
+    <div class="row-btns"><button class="btn btn-ghost btn-sm" data-act="previewDoc" data-id="${esc(d.id)}">👁 ${t('preview')}</button><button class="btn btn-ghost btn-sm" data-act="replaceDoc" data-id="${esc(d.id)}">🔄 ${t('replace')}</button><button class="btn btn-ghost btn-sm btn-danger" data-act="removeDoc" data-id="${esc(d.id)}">🗑 ${t('remove')}</button></div></div></div>`;
+}
+function docsStep(){
+  const req = requiredDocs();
+  let h = `<p class="hint">💡 ${t('docs_hint')}</p>`;
+  req.forEach(type => {
+    const ds = S.draftDocs.filter(d => d.type === type);
+    if (ds.length) h += ds.map(d => docRow(d, true)).join('');
+    else h += `<div class="doc need"><div class="di">${DOC_ICON[type]}</div><div class="dm"><b>${t('doc_' + type)}</b><small>⚠️ ${t('doc_required')} · ${t('not_uploaded')}</small><div class="row-btns"><button class="btn btn-navy btn-sm" data-act="addDoc" data-type="${type}">⬆️ ${t('upload')}</button></div></div></div>`;
+  });
+  const others = S.draftDocs.filter(d => !req.includes(d.type));
+  if (others.length) h += `<p class="lvl-h">${t('other_docs')}</p>` + others.map(d => docRow(d)).join('');
+  h += `<button class="btn btn-ghost" data-act="addDoc" style="margin-top:6px">➕ ${t('doc_add_other')}</button>`;
+  return h;
+}
+function reviewStep(){
+  const f = S.draft.form, u = uniById(f.university), p = progById(f.program);
+  const kv = (k, v) => v ? `<div class="kv"><span>${t(k)}</span><b>${esc(v)}</b></div>` : '';
+  return `
+  <div class="card rv"><h4>👤 ${t('step_personal')}</h4>
+    ${kv('f_name', f.first_name + ' ' + (f.last_name || ''))}${kv('f_dob', f.dob)}${kv('f_gender', f.gender ? t(f.gender) : '')}${kv('f_nationality', f.nationality)}${kv('f_residence', f.residence)}${kv('f_phone', f.phone)}${kv('f_tg', f.telegram)}${kv('f_email', f.email)}</div>
+  <div class="card rv"><h4>📚 ${t('step_education')}</h4>
+    ${kv('f_edu_level', f.edu_level ? t('edu_' + f.edu_level) : '')}${kv('f_prev_school', f.prev_school)}${kv('f_edu_field', f.edu_field)}${kv('f_prev_degree', f.prev_degree)}${kv('f_grad_year', f.grad_year)}${kv('f_gpa', f.gpa)}</div>
+  <div class="card rv"><h4>🎓 ${t('step_program')}</h4>
+    ${kv('f_university', u && u.name)}${kv('f_degree', f.degree_level ? t('lvl_' + f.degree_level) : '')}${kv('f_program', p && p.name)}${kv('f_intake', f.intake)}</div>
+  <div class="card rv"><h4>📄 ${t('step_docs')}</h4>
+    ${S.draftDocs.length ? S.draftDocs.map(d => `<div class="kv"><span>✅ ${esc(docName(d))}</span><b>${pagesTxt(d.pages)}</b></div>`).join('') : `<p class="step-meta">${t('no_docs')}</p>`}
+    ${requiredDocs().filter(x => !S.draftDocs.some(d => d.type === x)).map(x => `<div class="kv"><span>⚠️ ${t('doc_' + x)}</span><b>${t('not_uploaded')}</b></div>`).join('')}</div>
+  <div class="row-btns" style="margin-top:14px;display:grid;grid-template-columns:1fr 1fr"><button class="btn btn-ghost" data-act="toStep" data-s="1">✏️ ${t('edit_info')}</button><button class="btn btn-ghost" data-act="toStep" data-s="4">📄 ${t('edit_docs')}</button></div>`;
+}
+function validateStep(n){
+  const e = {}, f = S.draft.form;
+  (FIELDS[n] || []).forEach(x => {
+    const v = String(f[x.k] || '').trim();
+    if (x.req && !v) e[x.k] = 'err_required';
+    else if (v && x.v === 'phone' && !/^\+?[\d\s()\-]{7,20}$/.test(v)) e[x.k] = 'err_phone';
+    else if (v && x.v === 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) e[x.k] = 'err_email';
+    else if (v && x.v === 'year' && !(/^\d{4}$/.test(v) && +v > 1960 && +v <= new Date().getFullYear() + 1)) e[x.k] = 'err_year';
+  });
+  if (n === 3) ['country','university','degree_level','program','intake'].forEach(k => { if (!f[k]) e[k] = 'err_required'; });
+  S.errors = e; return !Object.keys(e).length;
+}
+async function nextStep(){
+  const s = S.draft.step;
+  if (s <= 3 && !validateStep(s)){ render(); toast(t('fix_fields'), 'bad'); haptic('bad'); const el = document.querySelector('.has-err'); el && el.scrollIntoView({behavior:'smooth', block:'center'}); return; }
+  if (s === 4){
+    const miss = requiredDocs().filter(x => !S.draftDocs.some(d => d.type === x));
+    if (miss.length){
+      const c = await choice(t('step_docs'), t('missing_required', {list: miss.map(x => t('doc_' + x)).join(S.lang === 'en' ? ', ' : '، ')}), [{k:'up', l:'⬆️ ' + t('upload_now'), cls:'btn-navy'}, {k:'go', l:t('continue_anyway'), cls:'btn-ghost'}]);
+      if (c === 'up'){ openSheet({ type: miss[0] }); return; }
+      if (c !== 'go') return;
+    }
+  }
+  S.draft.step = Math.min(5, s + 1); S.errors = {}; saveDraft(); render(true); haptic();
+}
+async function openApply(){
+  if (S.draft.started && !S.resumeShown){
+    S.resumeShown = true;
+    const c = await choice(t('resume_title'), t('resume_text'), [{k:'cont', l:t('continue_app'), cls:'btn-gold'}, {k:'new', l:t('start_new'), cls:'btn-ghost'}]);
+    if (c === 'new') await startNew(); else if (!c) return;
+  }
+  S.resumeShown = true;
+  S.stack = [{ v:'home' }, { v:'apply' }]; render(true);
+}
+async function startNew(){
+  overlay(t('loading'));
+  try { if (S.draftDocs.length) await api('clearDrafts'); } catch(e){}
+  hideOverlay();
+  S.draftDocs = []; S.draft = { step:1, form:{ telegram: tgUser.username ? '@' + tgUser.username : '' }, started:false }; store.del('ica_draft');
+}
+async function applyUni(uniId, progId){
+  if (S.draft.started && !S.resumeShown){
+    S.resumeShown = true;
+    const c = await choice(t('resume_title'), t('resume_text'), [{k:'cont', l:t('continue_app'), cls:'btn-gold'}, {k:'new', l:t('start_new'), cls:'btn-ghost'}]);
+    if (c === 'new') await startNew(); else if (!c) return;
+  }
+  S.resumeShown = true;
+  const f = S.draft.form, u = uniById(uniId); if (!u) return;
+  if (f.university !== uniId){ f.country = u.country; f.university = uniId; f.degree_level = ''; f.program = ''; f.intake = ''; }
+  if (progId){ const p = progById(progId); if (p){ f.degree_level = lvlKey(p.level); f.program = progId; f.intake = ''; } }
+  S.draft.preUni = uniId; S.draft.started = true; saveDraft();
+  S.stack = [{ v:'home' }, { v:'apply' }]; render(true); haptic();
+}
+async function submitApp(){
+  if (!validateStep(1)){ S.draft.step = 1; render(true); return toast(t('fix_fields'), 'bad'); }
+  if (!validateStep(2)){ S.draft.step = 2; render(true); return toast(t('fix_fields'), 'bad'); }
+  if (!validateStep(3)){ S.draft.step = 3; render(true); return toast(t('fix_fields'), 'bad'); }
+  await askWriteAccess();
+  const f = Object.assign({}, S.draft.form);
+  if (f.gender) f.gender = I18N.en[f.gender];
+  if (f.edu_level) f.edu_level = I18N.en['edu_' + f.edu_level];
+  overlay(t('submitting'));
+  try {
+    const r = await api('submit', { form:f, docIds:S.draftDocs.map(d => d.id), lang:S.lang });
+    S.apps = r.applications || S.apps; S.lastAppId = r.appId;
+    S.draftDocs = []; S.draft = { step:1, form:{ telegram:f.telegram }, started:false }; store.del('ica_draft'); S.resumeShown = false;
+    haptic('ok');
+    S.stack = [{ v:'home' }, { v:'done', id:r.appId }]; render(true);
+  } catch(e){ toast(t(e.key === 'e_auth' || e.key === 'e_network' ? e.key : 'e_submit'), 'bad'); haptic('bad'); }
+  finally { hideOverlay(); }
+}
+function askWriteAccess(){
+  return new Promise(res => {
+    try {
+      if (!tg || !tg.requestWriteAccess || !tg.isVersionAtLeast('6.9') || ls.get('ica_wa')) return res();
+      const timer = setTimeout(res, 15000);
+      tg.requestWriteAccess(ok => { clearTimeout(timer); ls.set('ica_wa', '1'); res(); });
+    } catch(e){ res(); }
+  });
+}
+function vDone(c){
+  return `<div class="wrap done">
+    <div class="tick">✓</div><h1 style="font-size:24px">✅ ${t('done_title')}</h1><p style="color:var(--muted);margin-top:8px">${t('done_text')}</p>
+    <div class="idbox"><span class="step-meta">${t('app_id')}</span><b>${esc(c.id)}</b><div style="margin-top:10px"><span class="badge under_review">🟡 ${t('st_under_review')}</span></div></div>
+    <p style="color:var(--muted);font-size:14px;margin-bottom:20px">${t('done_contact')}</p>
+    <div style="display:grid;gap:10px"><button class="btn btn-gold" data-act="tab" data-v="home">🏠 ${t('return_home')}</button><button class="btn btn-ghost" data-act="openMyApp" data-id="${esc(c.id)}">👤 ${t('view_app')}</button></div>
+  </div>`;
+}
+
+/* ---------- my application ---------- */
+function vMy(){
+  const w = h => `<div class="wrap" style="padding-top:14px">${h}</div>`;
+  if (!S.loaded) return w(S.loadError ? errBox() : `<div class="skel"></div>`);
+  const draft = S.draft.started ? `<div class="banner info" style="margin:0 0 14px"><span>📝</span><p>${t('resume_title')}</p><button class="btn btn-navy btn-sm" data-act="openApply">${t('continue_app')}</button></div>` : '';
+  if (!S.apps.length) return w(draft + `<div class="empty"><div class="e">📭</div><p>${t('my_empty')}</p><div style="margin-top:16px"><button class="btn btn-gold" data-act="openApply">📝 ${t('apply_now')}</button></div></div>`);
+  if (S.apps.length === 1) return vMyApp({ id:S.apps[0].id });
+  return w(draft + `<div class="section-h"><h3>${t('my_apps')}</h3><button class="link" data-act="refresh">↻ ${t('refresh')}</button></div>` + S.apps.map(a => `
+    <button class="card" style="display:block;width:100%;text-align:start;margin-bottom:12px" data-act="openMyApp" data-id="${esc(a.id)}">
+      <div style="display:flex;justify-content:space-between;gap:10px;align-items:center"><b dir="ltr">🆔 ${esc(a.id)}</b><span class="badge ${a.status}">${STATUS_ICON[a.status]} ${t('st_' + a.status)}</span></div>
+      <p style="margin-top:8px;font-size:14px">🎓 ${esc(a.university)}</p><p class="step-meta">📚 ${esc(a.program)} · 📅 ${esc(a.intake)}</p></button>`).join(''));
+}
+function vMyApp(c){
+  const a = S.apps.find(x => x.id === c.id);
+  if (!a) return `<div class="wrap">${S.loaded ? `<div class="empty"><div class="e">📭</div>${t('my_empty')}</div>` : `<div class="skel" style="margin-top:14px"></div>`}</div>`;
+  const kv = (k, v) => `<div class="kv"><span>${t(k)}</span><b>${esc(v || '—')}</b></div>`;
+  return `<div class="wrap" style="padding-top:14px">
+    <div class="d-hero" style="margin-top:0"><span class="step-meta" style="color:#C9D4E5">${t('app_id')}</span><h1 dir="ltr" style="margin-top:4px;font-size:22px;text-align:start">🆔 ${esc(a.id)}</h1>
+      <div style="margin-top:12px;display:flex;justify-content:space-between;align-items:center;gap:8px"><span class="badge ${a.status}">${STATUS_ICON[a.status]} ${t('st_' + a.status)}</span><button class="link" style="color:var(--gold-2)" data-act="refresh">↻ ${t('refresh')}</button></div></div>
+    <div class="card rv d-sec">${kv('f_university', a.university)}${kv('f_program', a.program)}${kv('f_intake', a.intake)}${kv('submitted_on', a.submitted)}</div>
+    ${a.missing.length ? `<section class="card d-sec"><h3>⚠️ ${t('missing')}</h3>${a.missing.map(m => `<div class="doc need"><div class="di">📄</div><div class="dm"><b>${esc(trDoc(m))}</b><div class="row-btns"><button class="btn btn-navy btn-sm" data-act="addAppDoc" data-id="${esc(a.id)}" data-item="${esc(m)}">⬆️ ${t('upload')}</button></div></div></div>`).join('')}</section>` : ''}
+    <section class="card d-sec"><h3>📄 ${t('documents')}</h3>
+      ${a.documents.length ? a.documents.map(d => `<div class="kv"><span>✅ ${esc(docName(d))}</span><button class="link" data-act="previewDoc" data-id="${esc(d.id)}">👁 ${t('preview')}</button></div>`).join('') : `<p class="step-meta">${t('no_docs')}</p>`}
+      <button class="btn btn-ghost" style="margin-top:12px" data-act="addAppDoc" data-id="${esc(a.id)}">➕ ${t('upload_extra')}</button></section>
+    <section class="card d-sec"><h3>💬 ${t('messages')}</h3>
+      ${a.messages.length ? a.messages.slice().reverse().map(m => `<div class="msg"><small>${esc(m.time)} · ${m.kind === 'status' ? '📢' : m.kind === 'request' ? '📄' : '💬'}</small>${m.kind === 'status' ? esc(t('st_' + (Object.keys(STATUS_ICON).find(k => I18N.en['st_' + k] === m.text) || '')) || m.text) : esc(m.text)}</div>`).join('') : `<p class="step-meta">${t('no_messages')}</p>`}</section>
+  </div>`;
+}
+function vAbout(){
+  return `<div class="wrap"><div class="d-hero"><div class="logo-mark" style="width:56px;height:56px"><img src="${esc(CONFIG.LOGO)}" alt="" onerror="this.replaceWith(document.createTextNode('ICA'))"></div><h1>${t('brand')}</h1><p>${t('tagline')}</p></div>
+    <div class="card d-sec"><p class="txt" style="color:var(--text)">${t('about_text')}</p></div>
+    <div class="card trust d-sec"><div class="row"><span>🧭</span><p><b>${t('why1_b')}</b>${t('why1')}</p></div><div class="row"><span>🛂</span><p><b>${t('why2_b')}</b>${t('why2')}</p></div><div class="row"><span>💬</span><p><b>${t('why3_b')}</b>${t('why3')}</p></div></div>
+    <div style="margin-top:14px"><button class="btn btn-gold" data-act="openApply">📝 ${t('apply_now')}</button></div></div>`;
+}
+function vContact(){
+  const C = CONFIG.CONTACT, L = [];
+  if (C.telegram) L.push(`<a href="${esc(C.telegram)}" data-act="ext" data-url="${esc(C.telegram)}"><span>✈️</span>${t('c_telegram')}</a>`);
+  if (C.whatsapp) L.push(`<a href="https://wa.me/${esc(C.whatsapp.replace(/\D/g, ''))}" data-act="ext" data-url="https://wa.me/${esc(C.whatsapp.replace(/\D/g, ''))}"><span>🟢</span>${t('c_whatsapp')} <small dir="ltr" style="color:var(--muted);margin-inline-start:auto">${esc(C.whatsapp)}</small></a>`);
+  if (C.email) L.push(`<a href="mailto:${esc(C.email)}"><span>✉️</span>${t('c_email')} <small dir="ltr" style="color:var(--muted);margin-inline-start:auto">${esc(C.email)}</small></a>`);
+  if (C.phone) L.push(`<a href="tel:${esc(C.phone)}"><span>📞</span>${t('c_phone')} <small dir="ltr" style="color:var(--muted);margin-inline-start:auto">${esc(C.phone)}</small></a>`);
+  return `<div class="wrap" style="padding-top:14px"><div class="card"><p style="color:var(--muted);margin-bottom:6px">${t('contact_text')}</p><div class="contact">${L.join('') || '<p class="step-meta">—</p>'}</div></div></div>`;
+}
+
+/* =================== document sheet (photos/PDF → one PDF) =================== */
+function openSheet(o){ S.sheet = Object.assign({ pages:[], type:'', label:'' }, o); if (!S.sheet.type) S.sheet.chooseType = true; renderSheet(); syncTelegramChrome(); }
+function closeSheet(){ if (S.sheet) S.sheet.pages.forEach(p => p.thumb && URL.revokeObjectURL(p.thumb)); S.sheet = null; renderSheet(); syncTelegramChrome(); }
+function renderSheet(){
+  const el = $('#sheet'), bd = $('#backdrop'), sh = S.sheet;
+  if (!sh){ el.classList.remove('open'); bd.classList.remove('open'); return; }
+  const title = sh.forItem || (sh.type && !sh.chooseType ? t('doc_' + sh.type) : t('doc_add_other'));
+  el.innerHTML = `<div class="grab"></div><div class="wrap">
+    <h3>${DOC_ICON[sh.type] || '📎'} ${esc(title)}</h3>
+    ${sh.chooseType ? `<label class="field"><span class="lab">${t('which_doc')}</span><select class="in" data-sk="type"><option value="">${t('select')}</option>${DOC_TYPES.map(d => `<option value="${d}" ${sh.type === d ? 'selected' : ''}>${t('doc_' + d)}</option>`).join('')}</select></label>` : ''}
+    ${sh.type === 'other' ? `<label class="field"><span class="lab">${t('doc_label')}</span><input class="in" data-sk="label" value="${esc(sh.label)}" maxlength="60"></label>` : ''}
+    <p class="hint">💡 ${t('docs_hint')}</p>
+    ${sh.pages.length ? `<div class="pages">${sh.pages.map((p, i) => `<div class="pg">${p.thumb ? `<img src="${p.thumb}" alt="">` : `<div><span class="pdf">📄</span>${esc(p.file.name.slice(0, 24))}</div>`}<span class="n">${i + 1}</span><button class="x" data-act="pageRemove" data-i="${i}">✕</button></div>`).join('')}</div>` : ''}
+    <div class="add-row">
+      <label class="btn btn-ghost filebtn">📷 ${t('take_photo')}<input type="file" accept="image/*" capture="environment" data-file="1"></label>
+      <label class="btn btn-ghost filebtn">📁 ${t('choose_files')}<input type="file" accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png" multiple data-file="1"></label>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 2fr;gap:10px"><button class="btn btn-ghost" data-act="closeSheet">${t('cancel')}</button><button class="btn btn-gold" data-act="saveSheet" ${sh.pages.length ? '' : 'disabled'}>✅ ${t('save_doc')}</button></div>
+  </div>`;
+  el.classList.add('open'); bd.classList.add('open');
+}
+function addFiles(input){
+  const sh = S.sheet; if (!sh) return;
+  for (const file of Array.from(input.files || [])){
+    const name = file.name.toLowerCase();
+    const isPdf = file.type === 'application/pdf' || name.endsWith('.pdf');
+    const isImg = /^image\/(jpeg|jpg|png)$/.test(file.type) || /\.(jpe?g|png)$/.test(name);
+    if (!isPdf && !isImg){ toast(t('e_format'), 'bad'); continue; }
+    if (file.size > 20 * 1048576){ toast(t('e_size', {n:20}), 'bad'); continue; }
+    sh.pages.push({ file, kind:isPdf ? 'pdf' : 'img', thumb:isPdf ? null : URL.createObjectURL(file) });
+  }
+  input.value = ''; renderSheet();
+}
+function loadScript(urls){
+  return new Promise((res, rej) => {
+    const tryAt = i => { if (i >= urls.length) return rej(new Error('script')); const s = document.createElement('script'); s.src = urls[i]; s.onload = () => res(urls[i]); s.onerror = () => { s.remove(); tryAt(i + 1); }; document.head.appendChild(s); };
+    tryAt(0);
+  });
+}
+async function ensurePdfLib(){ if (!window.PDFLib) await loadScript(['https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js','https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js','https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js']); }
+async function imageToJpeg(file){
+  let src;
+  try { src = await createImageBitmap(file, { imageOrientation:'from-image' }); }
+  catch(e){ src = await new Promise((res, rej) => { const im = new Image(); im.onload = () => res(im); im.onerror = rej; im.src = URL.createObjectURL(file); }); }
+  const w = src.width || src.naturalWidth, h = src.height || src.naturalHeight, max = 2480, sc = Math.min(1, max / Math.max(w, h));
+  const c = document.createElement('canvas'); c.width = Math.round(w * sc); c.height = Math.round(h * sc);
+  const x = c.getContext('2d'); x.fillStyle = '#fff'; x.fillRect(0, 0, c.width, c.height); x.drawImage(src, 0, 0, c.width, c.height);
+  const blob = await new Promise(r => c.toBlob(r, 'image/jpeg', 0.9));
+  return new Uint8Array(await blob.arrayBuffer());
+}
+async function buildPdf(pages, type){
+  await ensurePdfLib();
+  const { PDFDocument } = window.PDFLib;
+  if (pages.length === 1 && pages[0].kind === 'pdf'){          // single PDF → keep original, no re-encoding
+    const bytes = new Uint8Array(await pages[0].file.arrayBuffer());
+    let n = 1; try { n = (await PDFDocument.load(bytes, { ignoreEncryption:true })).getPageCount(); } catch(e){}
+    return { bytes, pages:n };
+  }
+  const out = await PDFDocument.create();
+  for (const p of pages){
+    if (p.kind === 'pdf'){
+      const src = await PDFDocument.load(await p.file.arrayBuffer(), { ignoreEncryption:true });
+      (await out.copyPages(src, src.getPageIndices())).forEach(pg => out.addPage(pg));
+    } else {
+      const img = await out.embedJpg(await imageToJpeg(p.file));
+      let W, H;
+      if (type === 'photo'){ const s = 595 / Math.max(img.width, img.height); W = img.width * s; H = img.height * s; }
+      else { [W, H] = img.width > img.height ? [842, 595] : [595, 842]; }      // A4
+      const s = Math.min(W / img.width, H / img.height), w = img.width * s, h = img.height * s;
+      out.addPage([W, H]).drawImage(img, { x:(W - w) / 2, y:(H - h) / 2, width:w, height:h });
+    }
+  }
+  return { bytes: await out.save(), pages: out.getPageCount() };
+}
+function toB64(u8){ let s = ''; for (let i = 0; i < u8.length; i += 0x8000) s += String.fromCharCode.apply(null, u8.subarray(i, i + 0x8000)); return btoa(s); }
+function fromB64(b){ const s = atob(b), u = new Uint8Array(s.length); for (let i = 0; i < s.length; i++) u[i] = s.charCodeAt(i); return u; }
+async function saveSheet(){
+  const sh = S.sheet; if (!sh || !sh.pages.length) return;
+  if (!sh.type){ toast(t('which_doc'), 'bad'); return; }
+  if (sh.type === 'other' && !sh.label && !sh.forItem){ toast(t('doc_label'), 'bad'); return; }
+  overlay(t('processing'));
+  let built;
+  try { built = await buildPdf(sh.pages, sh.type); }
+  catch(e){ console.error(e); hideOverlay(); toast(t('e_process'), 'bad'); haptic('bad'); return; }
+  if (built.bytes.length > CONFIG.MAX_MB * 1048576){ hideOverlay(); toast(t('e_size', {n:CONFIG.MAX_MB}), 'bad'); return; }
+  overlay(t('uploading'));
+  try {
+    const r = await api('uploadDoc', { type:sh.type, label:sh.label || (sh.type === 'other' ? sh.forItem : '') || '', pages:built.pages, data:toB64(built.bytes), name:studentName(), appId:sh.appId || '', forItem:sh.forItem || '', replaceId:sh.replaceId || '' });
+    S.pdfCache[r.doc.id] = built.bytes;
+    if (sh.appId){ if (r.applications) S.apps = r.applications; }
+    else { S.draftDocs = S.draftDocs.filter(d => d.id !== sh.replaceId).concat(r.doc); S.draft.started = true; saveDraft(); }
+    closeSheet(); render(); toast('✅ ' + docName(r.doc), 'ok'); haptic('ok');
+  } catch(e){ toast(t(e.key || 'e_generic', {n:CONFIG.MAX_MB}), 'bad'); haptic('bad'); }
+  finally { hideOverlay(); }
+}
+async function removeDoc(id){
+  const c = await choice(t('confirm_remove'), '', [{k:'y', l:'🗑 ' + t('yes_remove'), cls:'btn-navy'}, {k:'n', l:t('cancel'), cls:'btn-ghost'}]);
+  if (c !== 'y') return;
+  overlay(t('loading'));
+  try { await api('deleteDoc', { docId:id }); S.draftDocs = S.draftDocs.filter(d => d.id !== id); render(); }
+  catch(e){ toast(t(e.key || 'e_generic'), 'bad'); } finally { hideOverlay(); }
+}
+async function previewDoc(id){
+  overlay(t('loading'));
+  try {
+    let bytes = S.pdfCache[id];
+    if (!bytes){ const r = await api('getDoc', { docId:id }); bytes = fromB64(r.data); S.pdfCache[id] = bytes; }
+    if (!window.pdfjsLib){
+      const u = await loadScript(['https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js','https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js']);
+      pdfjsLib.GlobalWorkerOptions.workerSrc = u.replace('pdf.min.js', 'pdf.worker.min.js');
+    }
+    const pdf = await pdfjsLib.getDocument({ data: bytes.slice() }).promise;
+    const all = S.draftDocs.concat(...S.apps.map(a => a.documents)), d = all.find(x => x.id === id);
+    const pv = $('#preview');
+    pv.innerHTML = `<div class="pv-top"><span>📄 ${esc(d ? d.name : '')}</span><button class="icon-btn" data-act="closePreview">✕</button></div><div class="pv-body" id="pvBody"></div>`;
+    pv.classList.add('open'); hideOverlay(); syncTelegramChrome();
+    const body = $('#pvBody'), width = Math.min(body.clientWidth || 360, 760), dpr = Math.min(window.devicePixelRatio || 1, 2);
+    for (let i = 1; i <= Math.min(pdf.numPages, 20); i++){
+      const page = await pdf.getPage(i), vp0 = page.getViewport({ scale:1 }), vp = page.getViewport({ scale: width / vp0.width * dpr });
+      const c = document.createElement('canvas'); c.width = vp.width; c.height = vp.height; body.appendChild(c);
+      await page.render({ canvasContext: c.getContext('2d'), viewport: vp }).promise;
+    }
+  } catch(e){ console.error(e); hideOverlay(); toast(t(e.key || 'e_generic'), 'bad'); }
+}
+function closePreview(){ const pv = $('#preview'); pv.classList.remove('open'); pv.innerHTML = ''; syncTelegramChrome(); }
+
+/* =================== modal / toast / overlay =================== */
+let modalResolve;
+function choice(title, text, btns){
+  return new Promise(res => {
+    modalResolve = res;
+    const m = $('#modal');
+    m.innerHTML = `<div class="box"><h3>${esc(title)}</h3>${text ? `<p>${esc(text)}</p>` : '<p></p>'}<div class="stack">${btns.map(b => `<button class="btn ${b.cls || 'btn-ghost'}" data-act="modalPick" data-k="${b.k}">${esc(b.l)}</button>`).join('')}</div></div>`;
+    $('#backdrop').classList.add('open'); requestAnimationFrame(() => m.classList.add('open'));
+  });
+}
+function closeModal(v){ $('#modal').classList.remove('open'); if (!S.sheet) $('#backdrop').classList.remove('open'); setTimeout(() => { if (!$('#modal').classList.contains('open')) $('#modal').innerHTML = ''; }, 200); const r = modalResolve; modalResolve = null; r && r(v); }
+function langPicker(){
+  const m = $('#modal');
+  m.innerHTML = `<div class="box"><h3>🌐 ${t('choose_lang')}</h3><p></p><div class="stack">${Object.keys(I18N).map(k => `<button class="lang-opt ${S.lang === k ? 'on' : ''}" data-act="setLang" data-l="${k}"><span>${I18N[k]._name}</span>${S.lang === k ? '✓' : ''}</button>`).join('')}</div></div>`;
+  $('#backdrop').classList.add('open'); requestAnimationFrame(() => m.classList.add('open'));
+}
+let toastT;
+function toast(msg, kind){ const el = $('#toast'); el.textContent = msg; el.className = 'toast show ' + (kind || ''); clearTimeout(toastT); toastT = setTimeout(() => el.className = 'toast', 3200); }
+function overlay(txt){ $('#overlayText').textContent = txt; $('#overlay').classList.add('open'); }
+function hideOverlay(){ $('#overlay').classList.remove('open'); }
+
+/* =================== events =================== */
+const ACT = {
+  back: () => back(),
+  tab: el => { if (el.dataset.v === 'my' && S.loaded) loadData(true); resetTo(el.dataset.v); },
+  go: el => go(el.dataset.v),
+  openApply: () => openApply(),
+  uni: el => go('uni', { id:el.dataset.id }),
+  country: el => { S.country = el.dataset.c; render(); },
+  applyUni: el => applyUni(el.dataset.id, el.dataset.p),
+  next: () => nextStep(),
+  toStep: el => { S.draft.step = +el.dataset.s; saveDraft(); render(true); },
+  submit: () => submitApp(),
+  addDoc: el => openSheet({ type:el.dataset.type || '' }),
+  replaceDoc: el => { const d = S.draftDocs.find(x => x.id === el.dataset.id); openSheet({ type:d.type, label:d.label || '', replaceId:d.id }); },
+  removeDoc: el => removeDoc(el.dataset.id),
+  previewDoc: el => previewDoc(el.dataset.id),
+  closePreview: () => closePreview(),
+  addAppDoc: el => openSheet({ appId:el.dataset.id, forItem:el.dataset.item || '', type:el.dataset.item ? 'other' : '', label:el.dataset.item || '', chooseType:true }),
+  pageRemove: el => { const p = S.sheet.pages.splice(+el.dataset.i, 1)[0]; p && p.thumb && URL.revokeObjectURL(p.thumb); renderSheet(); },
+  closeSheet: () => closeSheet(),
+  saveSheet: () => saveSheet(),
+  openMyApp: el => { if (S.apps.length > 1 || cur().v === 'done') go('myapp', { id:el.dataset.id }); else resetTo('my'); },
+  refresh: async () => { overlay(t('loading')); await loadData(); hideOverlay(); },
+  reload: () => { S.loadError = ''; render(); loadData(); },
+  lang: () => langPicker(),
+  setLang: el => { S.lang = el.dataset.l; store.set('ica_lang', S.lang); closeModal(); render(); },
+  modalPick: el => closeModal(el.dataset.k),
+  ext: (el, e) => { if (tg && tg.openLink){ e.preventDefault(); const u = el.dataset.url; /^https:\/\/t\.me\//.test(u) && tg.openTelegramLink ? tg.openTelegramLink(u) : tg.openLink(u); } }
+};
+document.addEventListener('click', e => {
+  const el = e.target.closest('[data-act]');
+  if (el){ ACT[el.dataset.act] && ACT[el.dataset.act](el, e); return; }
+  if (e.target.id === 'backdrop'){ if ($('#modal').classList.contains('open')) closeModal(null); else if (S.sheet) closeSheet(); }
+});
+document.addEventListener('input', e => {
+  const el = e.target;
+  if (el.id === 'uniSearch'){ S.q = el.value; const l = $('#uniList'); if (l) l.innerHTML = uniListHTML(); return; }
+  if (el.dataset.sk && S.sheet){ S.sheet[el.dataset.sk] = el.value; if (el.dataset.sk === 'type') renderSheet(); return; }
+  if (el.dataset.k && el.tagName !== 'SELECT'){
+    let v = el.value; if (['phone','grad_year'].includes(el.dataset.k)){ const d = digits(v); if (d !== v){ v = d; el.value = d; } }
+    S.draft.form[el.dataset.k] = v; S.draft.started = true;
+    if (S.errors[el.dataset.k]){ delete S.errors[el.dataset.k]; const f = el.closest('.field'); f && f.classList.remove('has-err'); const er = f && f.querySelector('.err'); er && er.remove(); }
+    saveDraft();
+  }
+});
+document.addEventListener('change', e => {
+  const el = e.target;
+  if (el.dataset.file) return addFiles(el);
+  if (el.dataset.sk && S.sheet){ S.sheet[el.dataset.sk] = el.value; renderSheet(); return; }
+  if (el.dataset.k && el.tagName === 'SELECT'){
+    const k = el.dataset.k, f = S.draft.form; f[k] = el.value; S.draft.started = true; delete S.errors[k];
+    const chain = ['country','university','degree_level','program','intake'], i = chain.indexOf(k);
+    if (i >= 0){ chain.slice(i + 1).forEach(x => { f[x] = ''; delete S.errors[x]; }); S.draft.preUni = k === 'university' || k === 'country' ? '' : S.draft.preUni; render(); }
+    else { const fl = el.closest('.field'); fl && fl.classList.remove('has-err'); const er = fl && fl.querySelector('.err'); er && er.remove(); }
+    saveDraft();
+  }
+});
+
+/* =================== start =================== */
+(async function start(){
+  if (tg){
+    try {
+      tg.ready(); tg.expand();
+      if (tg.isVersionAtLeast('6.1')){ tg.setHeaderColor('#0B1F3A'); tg.setBackgroundColor(tg.colorScheme === 'dark' ? '#08111F' : '#F3F5F9'); }
+      if (tg.isVersionAtLeast('7.7') && tg.disableVerticalSwipes) tg.disableVerticalSwipes();
+      tg.BackButton && tg.BackButton.onClick(back);
+      tg.onEvent && tg.onEvent('themeChanged', () => document.documentElement.dataset.theme = tg.colorScheme);
+    } catch(e){}
+    document.documentElement.dataset.theme = tg.colorScheme === 'dark' ? 'dark' : 'light';
+  }
+  $('#dl_countries').innerHTML = COUNTRIES.map(c => `<option value="${c}">`).join('');
+  const [lang, draft] = await Promise.all([store.get('ica_lang'), store.get('ica_draft')]);
+  const tl = String(tgUser.language_code || navigator.language || 'en').toLowerCase();
+  S.lang = I18N[lang] ? lang : tl.startsWith('ar') ? 'ar' : (tl.startsWith('ku') || tl === 'ckb') ? 'ckb' : 'en';
+  try { if (draft){ const d = JSON.parse(draft); if (d && d.form) S.draft = Object.assign({ step:1, form:{}, started:false }, d); } } catch(e){}
+  if (!S.draft.form.telegram && tgUser.username) S.draft.form.telegram = '@' + tgUser.username;
+  // deep links: t.me/<bot>/<app>?startapp=uni_<id>  or  startapp=apply
+  const sp = (tg && tg.initDataUnsafe && tg.initDataUnsafe.start_param) || new URLSearchParams(location.search).get('startapp') || '';
+  render();
+  await loadData(true);
+  if (/^uni_/.test(sp) && uniById(sp.slice(4))) go('uni', { id:sp.slice(4) });
+  else if (sp === 'apply') openApply();
+})();
+</script>
+</body>
+</html>
